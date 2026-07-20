@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주누디자인 링크생성기</title>
+    <style>
+        /* 요즘 대세인 Pretendard 폰트 웹폰트로 불러오기 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        /* 변수 설정 (라이트/다크모드 색상 및 효과) */
+        :root {
+            --bg-color: #f0f2f5;
+            --container-bg: #ffffff;
+            --text-color: #1d1d1f;
+            --text-muted: #86868b;
+            --primary-gradient: linear-gradient(135deg, #007aff 0%, #0056b3 100%);
+            --button-shadow: rgba(0, 0, 0, 0.08);
+            --border-color: #e5e5ea;
+            --input-focus: rgba(0, 122, 255, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #151516;
+            --container-bg: #1c1c1e;
+            --text-color: #f5f5f7;
+            --text-muted: #a1a1a6;
+            --primary-gradient: linear-gradient(135deg, #0a84ff 0%, #004080 100%);
+            --button-shadow: rgba(0, 0, 0, 0.4);
+            --border-color: #38383a;
+            --input-focus: rgba(10, 132, 255, 0.4);
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            margin: 0;
+            padding: 2vw; /* 모바일 대응 패딩 */
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px var(--button-shadow);
+            transition: all 0.4s ease;
+        }
+
+        /* 상단 배너 디자인 */
+        .header-banner {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.25);
+        }
+
+        .header-banner h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .theme-toggle {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* 입력 폼 영역 */
+        .add-form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .add-form input, .add-form select {
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            flex: 1;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .add-form input:focus, .add-form select:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px var(--input-focus);
+        }
+
+        .add-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-width: 120px;
+        }
+        
+        .add-btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3);
+        }
+
+        /* 섹션 및 버튼 디자인 */
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .link-wrapper {
+            position: relative;
+            display: block;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            padding: 18px 15px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 10px var(--button-shadow);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            word-break: keep-all;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 20px var(--button-shadow);
+            filter: brightness(1.05);
+        }
+
+        .link-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* 삭제 버튼 */
+        .delete-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #ff3b30;
+            color: white;
+            border: 2px solid var(--container-bg);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .link-wrapper:hover .delete-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .delete-btn:hover { background-color: #d70015; }
+
+        /* 로딩 스피너 디자인 */
+        .loading { 
+            text-align: center; 
+            color: var(--text-muted); 
+            font-weight: bold; 
+            padding: 20px; 
+            grid-column: 1 / -1; 
+        }
+
+        /* 카테고리별 테마 색상 */
+        .cat-top { background-color: #fff8e6; border-color: #ffe08a; color: #946c00; }
+        .cat-partner { background-color: #e6f6eb; border-color: #93d5a6; color: #1e6533; }
+        .cat-design { background-color: #f1ecf9; border-color: #c9b9e8; color: #4b307d; }
+        .cat-frequent { background-color: #e6f7fa; border-color: #92e0ed; color: #006c7e; }
+
+        [data-theme="dark"] .cat-top { background-color: #2b2205; border-color: #664d03; color: #ffd147; }
+        [data-theme="dark"] .cat-partner { background-color: #0c2317; border-color: #176536; color: #8ee0b1; }
+        [data-theme="dark"] .cat-design { background-color: #1c152a; border-color: #4b307d; color: #d6c6ff; }
+        [data-theme="dark"] .cat-frequent { background-color: #0c262a; border-color: #0e6f82; color: #7be4fa; }
+
+        /* 모바일 반응형 */
+        @media screen and (max-width: 768px) {
+            .container { padding: 25px 20px; border-radius: 20px; }
+            .header-banner { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+            .add-form { flex-direction: column; padding: 15px; }
+            .add-btn { padding: 16px; font-size: 1.1rem; }
+            .button-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+            .link-btn { padding: 15px 10px; font-size: 0.95rem; }
+            .delete-btn { opacity: 0.7; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 상단 컬러 배너 -->
+        <div class="header-banner">
+            <h2>주누디자인 링크생성기</h2>
+            <button class="theme-toggle" onclick="toggleTheme()">다크모드 🌙</button>
+        </div>
+
+        <!-- 링크 추가 폼 -->
+        <div class="add-form">
+            <select id="inputCategory">
+                <option value="top">⭐ 최상단 즐겨찾기</option>
+                <option value="partner">🏢 인쇄소 거래처</option>
+                <option value="design">🎨 디자인 소스</option>
+                <option value="frequent">📌 자주가는 사이트</option>
+            </select>
+            <input type="text" id="inputName" placeholder="버튼 이름 (예: 구글)">
+            <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)">
+            <button class="add-btn" id="btnAdd" onclick="addLink()">추가하기 ➕</button>
+        </div>
+
+        <!-- 카테고리별 영역 -->
+        <div class="section-title">⭐ 최상단 즐겨찾기</div>
+        <div class="button-grid" id="grid-top"><div class="loading">구글 시트에서 데이터를 불러오는 중입니다...⏳</div></div>
+
+        <hr style="border:0; height:1px; background:var(--border-color); margin: 30px 0;">
+
+        <div class="section-title">🏢 인쇄소 거래처</div>
+        <div class="button-grid" id="grid-partner"></div>
+
+        <div class="section-title">🎨 디자인 소스</div>
+        <div class="button-grid" id="grid-design"></div>
+
+        <div class="section-title">📌 자주가는 사이트</div>
+        <div class="button-grid" id="grid-frequent"></div>
+    </div>
+
+    <script>
+        // 발급받으신 Google Apps Script URL 적용 완료
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec"; 
+        
+        let links = [];
+
+        // 구글 시트에서 데이터 불러오기
+        async function fetchLinks() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                links = await response.json();
+                renderLinks();
+            } catch (error) {
+                document.getElementById('grid-top').innerHTML = "<div class='loading'>데이터를 불러오는 데 실패했습니다. 주소를 다시 확인해주세요.</div>";
+            }
+        }
+
+        // 화면 렌더링 함수
+        function renderLinks() {
+            document.getElementById('grid-top').innerHTML = '';
+            document.getElementById('grid-partner').innerHTML = '';
+            document.getElementById('grid-design').innerHTML = '';
+            document.getElementById('grid-frequent').innerHTML = '';
+
+            links.forEach(link => {
+                const linkHTML = `
+                    <div class="link-wrapper">
+                        <a href="${link.url}" target="_blank" class="link-btn cat-${link.category}">
+                            ${link.name}
+                        </a>
+                        <button class="delete-btn" onclick="deleteLink('${link.id}')" title="삭제">×</button>
+                    </div>
+                `;
+                document.getElementById(`grid-${link.category}`).insertAdjacentHTML('beforeend', linkHTML);
+            });
+        }
+
+        // 링크 추가 함수 (구글 시트로 전송)
+        async function addLink() {
+            const category = document.getElementById('inputCategory').value;
+            const name = document.getElementById('inputName').value.trim();
+            let url = document.getElementById('inputUrl').value.trim();
+            const btnAdd = document.getElementById('btnAdd');
+
+            if (!name || !url) return alert("버튼 이름과 링크 주소를 모두 입력해주세요!");
+            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+
+            btnAdd.textContent = "저장 중...";
+            btnAdd.disabled = true;
+
+            const newLink = { action: 'add', id: Date.now().toString(), name: name, url: url, category: category };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(newLink),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' } // CORS 우회를 위해 text/plain 사용
+                });
+                
+                links.push(newLink); // 화면에도 즉시 반영
+                renderLinks();
+                document.getElementById('inputName').value = '';
+                document.getElementById('inputUrl').value = '';
+            } catch (error) {
+                alert("추가 중 오류가 발생했습니다.");
+            } finally {
+                btnAdd.textContent = "추가하기 ➕";
+                btnAdd.disabled = false;
+            }
+        }
+
+        // 링크 삭제 함수 (구글 시트로 전송)
+        async function deleteLink(id) {
+            if(confirm("이 링크를 삭제하시겠습니까? (모든 직원의 화면에서도 지워집니다)")) {
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: 'delete', id: id }),
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    });
+                    
+                    links = links.filter(link => link.id !== id);
+                    renderLinks();
+                } catch(error) {
+                    alert("삭제 중 오류가 발생했습니다.");
+                }
+            }
+        }
+
+        // 테마 설정
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-toggle');
+            if(body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btn.textContent = '다크모드 🌙';
+                localStorage.setItem('junu_theme_v2', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.textContent = '라이트모드 ☀️';
+                localStorage.setItem('junu_theme_v2', 'dark');
+            }
+        }
+
+        // 초기 실행
+        window.onload = () => {
+            if(localStorage.getItem('junu_theme_v2') === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-toggle').textContent = '라이트모드 ☀️';
+            }
+            fetchLinks(); // 페이지가 켜지자마자 구글 시트에서 데이터를 불러옵니다.
+        }
+    </script>
+</body>
+</html>
