@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주누디자인 링크생성기</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <style>
-        /* 요즘 대세인 Pretendard 폰트 웹폰트로 불러오기 */
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-        /* 변수 설정 (라이트/다크모드 색상 및 효과) */
         :root {
             --bg-color: #f0f2f5;
             --container-bg: #ffffff;
@@ -36,10 +32,10 @@
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
             margin: 0;
-            padding: 2vw; /* 모바일 대응 패딩 */
-            min-height: 100vh;
+            padding: 2vw;
+            min-height: 100dvh;
             box-sizing: border-box;
         }
 
@@ -47,70 +43,98 @@
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--container-bg);
-            padding: 40px;
+            padding: 36px;
             border-radius: 24px;
             box-shadow: 0 10px 30px var(--button-shadow);
-            transition: all 0.4s ease;
         }
 
-        /* 상단 배너 디자인 */
         .header-banner {
             background: var(--primary-gradient);
             color: white;
-            padding: 25px 30px;
+            padding: 22px 28px;
             border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 35px;
+            gap: 12px;
+            margin-bottom: 24px;
             box-shadow: 0 8px 20px rgba(0, 122, 255, 0.25);
         }
 
         .header-banner h2 {
             margin: 0;
-            font-size: 1.6rem;
+            font-size: 1.55rem;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
 
-        .theme-toggle {
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-btn {
             background-color: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 18px;
+            padding: 9px 16px;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
 
-        .theme-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
+        .header-btn:hover { background-color: rgba(255, 255, 255, 0.3); transform: scale(1.03); }
+        .header-btn.active { background-color: #ffffff; color: #0056b3; }
 
-        /* 입력 폼 영역 */
-        .add-form {
+        .toolbar {
             display: flex;
             gap: 12px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.98rem;
+            font-family: inherit;
             background-color: var(--bg-color);
-            padding: 20px;
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px var(--input-focus);
+        }
+
+        .add-form {
+            display: none;
+            gap: 12px;
+            margin-bottom: 32px;
+            background-color: var(--bg-color);
+            padding: 18px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
         }
 
+        body.edit-mode .add-form { display: flex; }
+
         .add-form input, .add-form select {
-            padding: 14px;
+            padding: 13px;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             flex: 1;
-            font-size: 1rem;
+            font-size: 0.98rem;
             font-family: inherit;
             background-color: var(--container-bg);
             color: var(--text-color);
-            transition: all 0.2s;
         }
 
         .add-form input:focus, .add-form select:focus {
@@ -123,24 +147,19 @@
             background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 14px 24px;
+            padding: 13px 22px;
             border-radius: 12px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            min-width: 120px;
-        }
-        
-        .add-btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3);
+            font-size: 0.98rem;
+            min-width: 115px;
         }
 
-        /* 섹션 및 버튼 디자인 */
+        .add-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
         .section-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
             color: var(--text-color);
             font-weight: 700;
             display: flex;
@@ -151,14 +170,11 @@
         .button-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 40px;
+            gap: 14px;
+            margin-bottom: 34px;
         }
 
-        .link-wrapper {
-            position: relative;
-            display: block;
-        }
+        .link-wrapper { position: relative; display: block; }
 
         .link-btn {
             display: flex;
@@ -166,66 +182,74 @@
             justify-content: center;
             text-align: center;
             text-decoration: none;
-            padding: 18px 15px;
+            padding: 18px 36px 18px 15px;
             border-radius: 16px;
             font-weight: 600;
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             border: 1px solid transparent;
             box-shadow: 0 4px 10px var(--button-shadow);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
             word-break: keep-all;
         }
 
         .link-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 20px var(--button-shadow);
-            filter: brightness(1.05);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 18px var(--button-shadow);
+            filter: brightness(1.03);
         }
 
-        .link-btn:active {
-            transform: translateY(0) scale(0.98);
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.08);
+            color: inherit;
+            border: none;
+            border-radius: 8px;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s, background 0.2s;
         }
 
-        /* 삭제 버튼 */
+        .copy-btn:hover { opacity: 1; background: rgba(0, 0, 0, 0.16); }
+
         .delete-btn {
             position: absolute;
-            top: -10px;
-            right: -10px;
+            top: -9px;
+            right: -9px;
             background-color: #ff3b30;
             color: white;
             border: 2px solid var(--container-bg);
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             cursor: pointer;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             font-size: 14px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.2s;
             z-index: 10;
         }
 
-        .link-wrapper:hover .delete-btn {
-            opacity: 1;
-            transform: scale(1);
-        }
-
+        body.edit-mode .delete-btn { display: flex; }
         .delete-btn:hover { background-color: #d70015; }
 
-        /* 로딩 스피너 디자인 */
-        .loading { 
-            text-align: center; 
-            color: var(--text-muted); 
-            font-weight: bold; 
-            padding: 20px; 
-            grid-column: 1 / -1; 
+        .loading {
+            text-align: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 20px;
+            grid-column: 1 / -1;
         }
 
-        /* 카테고리별 테마 색상 */
         .cat-top { background-color: #fff8e6; border-color: #ffe08a; color: #946c00; }
         .cat-partner { background-color: #e6f6eb; border-color: #93d5a6; color: #1e6533; }
         .cat-design { background-color: #f1ecf9; border-color: #c9b9e8; color: #4b307d; }
@@ -236,28 +260,29 @@
         [data-theme="dark"] .cat-design { background-color: #1c152a; border-color: #4b307d; color: #d6c6ff; }
         [data-theme="dark"] .cat-frequent { background-color: #0c262a; border-color: #0e6f82; color: #7be4fa; }
 
-        /* 모바일 반응형 */
         @media screen and (max-width: 768px) {
-            .container { padding: 25px 20px; border-radius: 20px; }
-            .header-banner { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
-            .add-form { flex-direction: column; padding: 15px; }
-            .add-btn { padding: 16px; font-size: 1.1rem; }
-            .button-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-            .link-btn { padding: 15px 10px; font-size: 0.95rem; }
-            .delete-btn { opacity: 0.7; transform: scale(1); }
+            .container { padding: 22px 16px; border-radius: 20px; }
+            .header-banner { flex-direction: column; text-align: center; padding: 18px; }
+            .add-form { flex-direction: column; padding: 14px; }
+            .button-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px; }
+            .link-btn { padding: 14px 30px 14px 10px; font-size: 0.92rem; }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <!-- 상단 컬러 배너 -->
         <div class="header-banner">
             <h2>주누디자인 링크생성기</h2>
-            <button class="theme-toggle" onclick="toggleTheme()">다크모드 🌙</button>
+            <div class="header-actions">
+                <button class="header-btn" id="btnEditMode" onclick="toggleEditMode()">편집 잠금 🔒</button>
+                <button class="header-btn" id="btnTheme" onclick="toggleTheme()">다크모드 🌙</button>
+            </div>
         </div>
 
-        <!-- 링크 추가 폼 -->
+        <div class="toolbar">
+            <input type="search" id="searchInput" class="search-input" placeholder="🔍 링크 이름 또는 주소 검색..." oninput="renderLinks()">
+        </div>
+
         <div class="add-form">
             <select id="inputCategory">
                 <option value="top">⭐ 최상단 즐겨찾기</option>
@@ -270,11 +295,10 @@
             <button class="add-btn" id="btnAdd" onclick="addLink()">추가하기 ➕</button>
         </div>
 
-        <!-- 카테고리별 영역 -->
         <div class="section-title">⭐ 최상단 즐겨찾기</div>
         <div class="button-grid" id="grid-top"><div class="loading">구글 시트에서 데이터를 불러오는 중입니다...⏳</div></div>
 
-        <hr style="border:0; height:1px; background:var(--border-color); margin: 30px 0;">
+        <hr style="border:0; height:1px; background:var(--border-color); margin: 26px 0;">
 
         <div class="section-title">🏢 인쇄소 거래처</div>
         <div class="button-grid" id="grid-partner"></div>
@@ -287,68 +311,129 @@
     </div>
 
     <script>
-        // 발급받으신 Google Apps Script URL 적용 완료
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec"; 
-        
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec";
+        const VALID_CATEGORIES = new Set(["top", "partner", "design", "frequent"]);
         let links = [];
 
-        // 구글 시트에서 데이터 불러오기
+        function sanitizeUrl(raw) {
+            try {
+                const candidate = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
+                const parsed = new URL(candidate);
+                if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+                    return parsed.href;
+                }
+            } catch (_) {}
+            return null;
+        }
+
         async function fetchLinks() {
             try {
                 const response = await fetch(SCRIPT_URL);
-                links = await response.json();
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                links = Array.isArray(data) ? data : [];
                 renderLinks();
             } catch (error) {
-                document.getElementById('grid-top').innerHTML = "<div class='loading'>데이터를 불러오는 데 실패했습니다. 주소를 다시 확인해주세요.</div>";
+                const topGrid = document.getElementById("grid-top");
+                topGrid.textContent = "";
+                const msg = document.createElement("div");
+                msg.className = "loading";
+                msg.textContent = "데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.";
+                topGrid.appendChild(msg);
             }
         }
 
-        // 화면 렌더링 함수
         function renderLinks() {
-            document.getElementById('grid-top').innerHTML = '';
-            document.getElementById('grid-partner').innerHTML = '';
-            document.getElementById('grid-design').innerHTML = '';
-            document.getElementById('grid-frequent').innerHTML = '';
+            const query = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+            VALID_CATEGORIES.forEach(cat => {
+                document.getElementById(`grid-${cat}`).textContent = "";
+            });
 
             links.forEach(link => {
-                const linkHTML = `
-                    <div class="link-wrapper">
-                        <a href="${link.url}" target="_blank" class="link-btn cat-${link.category}">
-                            ${link.name}
-                        </a>
-                        <button class="delete-btn" onclick="deleteLink('${link.id}')" title="삭제">×</button>
-                    </div>
-                `;
-                document.getElementById(`grid-${link.category}`).insertAdjacentHTML('beforeend', linkHTML);
+                const safeUrl = sanitizeUrl(String(link.url || ""));
+                if (!safeUrl) return;
+                const nameStr = String(link.name || safeUrl);
+                if (query && !nameStr.toLowerCase().includes(query) && !safeUrl.toLowerCase().includes(query)) {
+                    return;
+                }
+
+                const cat = VALID_CATEGORIES.has(link.category) ? link.category : "frequent";
+                const grid = document.getElementById(`grid-${cat}`);
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "link-wrapper";
+
+                const anchor = document.createElement("a");
+                anchor.href = safeUrl;
+                anchor.target = "_blank";
+                anchor.rel = "noopener noreferrer";
+                anchor.className = `link-btn cat-${cat}`;
+                anchor.textContent = nameStr;
+
+                const copyBtn = document.createElement("button");
+                copyBtn.type = "button";
+                copyBtn.className = "copy-btn";
+                copyBtn.title = "링크 복사";
+                copyBtn.textContent = "📋";
+                copyBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    try {
+                        await navigator.clipboard.writeText(safeUrl);
+                        copyBtn.textContent = "✓";
+                        setTimeout(() => { copyBtn.textContent = "📋"; }, 1200);
+                    } catch (_) {
+                        prompt("아래 주소를 복사하세요:", safeUrl);
+                    }
+                });
+
+                const delBtn = document.createElement("button");
+                delBtn.type = "button";
+                delBtn.className = "delete-btn";
+                delBtn.title = "삭제";
+                delBtn.textContent = "×";
+                delBtn.addEventListener("click", () => deleteLink(link.id));
+
+                wrapper.appendChild(anchor);
+                wrapper.appendChild(copyBtn);
+                wrapper.appendChild(delBtn);
+                grid.appendChild(wrapper);
             });
         }
 
-        // 링크 추가 함수 (구글 시트로 전송)
         async function addLink() {
-            const category = document.getElementById('inputCategory').value;
-            const name = document.getElementById('inputName').value.trim();
-            let url = document.getElementById('inputUrl').value.trim();
-            const btnAdd = document.getElementById('btnAdd');
+            const category = document.getElementById("inputCategory").value;
+            const name = document.getElementById("inputName").value.trim();
+            const rawUrl = document.getElementById("inputUrl").value.trim();
+            const btnAdd = document.getElementById("btnAdd");
 
-            if (!name || !url) return alert("버튼 이름과 링크 주소를 모두 입력해주세요!");
-            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+            if (!name || !rawUrl) return alert("버튼 이름과 링크 주소를 모두 입력해주세요!");
+            const safeUrl = sanitizeUrl(rawUrl);
+            if (!safeUrl) return alert("올바른 http:// 또는 https:// 주소를 입력해주세요!");
 
             btnAdd.textContent = "저장 중...";
             btnAdd.disabled = true;
 
-            const newLink = { action: 'add', id: Date.now().toString(), name: name, url: url, category: category };
+            const newLink = {
+                action: "add",
+                id: Date.now().toString(),
+                name,
+                url: safeUrl,
+                category: VALID_CATEGORIES.has(category) ? category : "frequent"
+            };
 
             try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
+                const res = await fetch(SCRIPT_URL, {
+                    method: "POST",
                     body: JSON.stringify(newLink),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' } // CORS 우회를 위해 text/plain 사용
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }
                 });
-                
-                links.push(newLink); // 화면에도 즉시 반영
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                links.push(newLink);
                 renderLinks();
-                document.getElementById('inputName').value = '';
-                document.getElementById('inputUrl').value = '';
+                document.getElementById("inputName").value = "";
+                document.getElementById("inputUrl").value = "";
             } catch (error) {
                 alert("추가 중 오류가 발생했습니다.");
             } finally {
@@ -357,47 +442,51 @@
             }
         }
 
-        // 링크 삭제 함수 (구글 시트로 전송)
         async function deleteLink(id) {
-            if(confirm("이 링크를 삭제하시겠습니까? (모든 직원의 화면에서도 지워집니다)")) {
-                try {
-                    await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({ action: 'delete', id: id }),
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                    });
-                    
-                    links = links.filter(link => link.id !== id);
-                    renderLinks();
-                } catch(error) {
-                    alert("삭제 중 오류가 발생했습니다.");
-                }
+            if (!confirm("이 링크를 삭제하시겠습니까? (모든 직원의 화면에서도 지워집니다)")) return;
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "delete", id: String(id) }),
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                links = links.filter(link => String(link.id) !== String(id));
+                renderLinks();
+            } catch (error) {
+                alert("삭제 중 오류가 발생했습니다.");
             }
         }
 
-        // 테마 설정
+        function toggleEditMode() {
+            const isEdit = document.body.classList.toggle("edit-mode");
+            const btn = document.getElementById("btnEditMode");
+            btn.textContent = isEdit ? "편집 중 🔓" : "편집 잠금 🔒";
+            btn.classList.toggle("active", isEdit);
+        }
+
         function toggleTheme() {
             const body = document.body;
-            const btn = document.querySelector('.theme-toggle');
-            if(body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                btn.textContent = '다크모드 🌙';
-                localStorage.setItem('junu_theme_v2', 'light');
+            const btn = document.getElementById("btnTheme");
+            if (body.getAttribute("data-theme") === "dark") {
+                body.removeAttribute("data-theme");
+                btn.textContent = "다크모드 🌙";
+                localStorage.setItem("junu_theme_v2", "light");
             } else {
-                body.setAttribute('data-theme', 'dark');
-                btn.textContent = '라이트모드 ☀️';
-                localStorage.setItem('junu_theme_v2', 'dark');
+                body.setAttribute("data-theme", "dark");
+                btn.textContent = "라이트모드 ☀️";
+                localStorage.setItem("junu_theme_v2", "dark");
             }
         }
 
-        // 초기 실행
         window.onload = () => {
-            if(localStorage.getItem('junu_theme_v2') === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                document.querySelector('.theme-toggle').textContent = '라이트모드 ☀️';
+            if (localStorage.getItem("junu_theme_v2") === "dark") {
+                document.body.setAttribute("data-theme", "dark");
+                document.getElementById("btnTheme").textContent = "라이트모드 ☀️";
             }
-            fetchLinks(); // 페이지가 켜지자마자 구글 시트에서 데이터를 불러옵니다.
-        }
+            fetchLinks();
+        };
     </script>
 </body>
 </html>
