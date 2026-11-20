@@ -4,8 +4,7 @@
   "description": "주누디자인 대표 & 실장 전용 초고속 모바일 링크 포털",
   "start_url": "./index.html",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#0f1015",
+  "background_color": "#0d0e12",
   "theme_color": "#0B192C",
   "icons": [
     {

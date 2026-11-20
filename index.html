@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, viewport-fit=cover">
     <title>주누디자인 링크마스터 (대표 & 실장 전용)</title>
     
-    <!-- PWA 모바일 앱 설정 (가로/세로 자유 회전 지원) -->
+    <!-- PWA 모바일 설정 (가로/세로 자동회전 완벽 지원) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0B192C">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,40 +18,45 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <style>
         :root {
-            --bg-color: #0d0e12;
-            --container-bg: #14161d;
-            --card-bg: #1a1d26;
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-color: #f3f5f9;
-            --text-muted: #8e95a5;
+            --bg-color: #0c0d12;
+            --container-bg: #14161f;
+            --card-bg: #1c1f2b;
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-color: #ffffff;
+            --text-muted: #a5acbd;
             --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
-            --accent-gold: #D4AF37;
-            --accent-blue: #007aff;
-            --button-shadow: rgba(0, 0, 0, 0.4);
-            --border-color: #242733;
-            --input-focus: rgba(212, 175, 55, 0.4);
+            --accent-gold: #FFD700;
+            --accent-blue: #0A84FF;
+            --button-shadow: rgba(0, 0, 0, 0.5);
+            --border-color: #2f3445;
+            --input-focus: rgba(255, 215, 0, 0.45);
             --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 16px);
+            --safe-bottom: env(safe-area-inset-bottom, 24px);
             --safe-left: env(safe-area-inset-left, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
         }
 
         [data-theme="light"] {
-            --bg-color: #f2f4f8;
+            --bg-color: #f2f5fa;
             --container-bg: #ffffff;
             --card-bg: #ffffff;
-            --card-border: #e1e5ee;
-            --text-color: #1a1c22;
-            --text-muted: #6b7280;
+            --card-border: #ccd3e2;
+            --text-color: #111318;
+            --text-muted: #555c6d;
             --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
-            --button-shadow: rgba(0, 0, 0, 0.06);
-            --border-color: #e5e8f0;
-            --input-focus: rgba(0, 122, 255, 0.3);
+            --button-shadow: rgba(0, 0, 0, 0.1);
+            --border-color: #d6dce9;
+            --input-focus: rgba(0, 122, 255, 0.35);
         }
 
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ⭐ 핵심: 기본 폰트 크기 자체를 파격적으로 키움 (20px 기준) */
+        html {
+            font-size: 20px;
         }
 
         body {
@@ -61,107 +66,107 @@
             transition: background-color 0.25s ease, color 0.25s ease;
             margin: 0;
             padding: 0;
-            padding-top: calc(var(--safe-top) + 8px);
-            padding-bottom: calc(var(--safe-bottom) + 20px);
-            padding-left: calc(var(--safe-left) + 10px);
-            padding-right: calc(var(--safe-right) + 10px);
+            padding-top: calc(var(--safe-top) + 12px);
+            padding-bottom: calc(var(--safe-bottom) + 36px);
+            padding-left: calc(var(--safe-left) + 14px);
+            padding-right: calc(var(--safe-right) + 14px);
             min-height: 100dvh;
-            user-select: none;
-            -webkit-user-select: none;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
             width: 100%;
-            max-width: 1080px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* 📱 스마트폰 헤더 */
+        /* 👑 큼직한 상단 헤더 배너 */
         .header-banner {
             background: var(--primary-gradient);
             color: white;
-            padding: 14px 16px;
-            border-radius: 16px;
+            padding: 18px 22px;
+            border-radius: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            gap: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 215, 0, 0.4);
         }
 
         .header-title-box {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
         }
 
         .header-banner h2 {
             margin: 0;
-            font-size: 1.22rem;
-            font-weight: 800;
-            letter-spacing: -0.4px;
+            font-size: 1.55rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .vip-badge {
-            background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 100%);
-            color: #121214;
-            font-size: 0.68rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000000;
+            font-size: 0.8rem;
             font-weight: 900;
-            padding: 2px 7px;
-            border-radius: 12px;
+            padding: 4px 10px;
+            border-radius: 14px;
             letter-spacing: 0.5px;
         }
 
         .header-subtitle {
-            font-size: 0.76rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
             margin: 0;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .header-actions {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .header-btn {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.22);
             backdrop-filter: blur(8px);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 7px 11px;
-            border-radius: 14px;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            padding: 10px 16px;
+            border-radius: 16px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 0.8rem;
+            font-weight: 800;
+            font-size: 0.95rem;
             transition: all 0.15s;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
 
         .header-btn:active {
             transform: scale(0.95);
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.4);
         }
 
         .header-btn.install-btn {
-            background: linear-gradient(135deg, #D4AF37 0%, #AA8010 100%);
-            color: #121214;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            color: #000000;
             font-weight: 900;
             border: none;
-            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 14px rgba(255, 215, 0, 0.5);
         }
 
-        /* 🔍 검색창 & 툴바 */
+        /* 🔍 시원하게 큰 검색창 */
         .toolbar {
-            margin-bottom: 10px;
+            margin-bottom: 14px;
         }
 
         .search-box {
@@ -171,59 +176,64 @@
 
         .search-input {
             width: 100%;
-            padding: 11px 14px;
-            padding-right: 36px;
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            font-size: 0.95rem;
+            padding: 16px 20px;
+            padding-right: 50px;
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
             font-family: inherit;
             background-color: var(--card-bg);
             color: var(--text-color);
             box-sizing: border-box;
             outline: none;
-            transition: border-color 0.2s;
-            box-shadow: 0 2px 8px var(--button-shadow);
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px var(--button-shadow);
         }
 
         .search-input:focus {
             border-color: var(--accent-gold);
-            box-shadow: 0 0 0 3px var(--input-focus);
+            box-shadow: 0 0 0 4px var(--input-focus);
         }
 
         .search-clear {
             position: absolute;
-            right: 10px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            background: transparent;
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            color: var(--text-muted);
-            font-size: 16px;
+            color: var(--text-color);
+            font-size: 20px;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
             cursor: pointer;
             display: none;
-            padding: 4px;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* 🏷️ 카테고리 칩 스크롤 */
+        /* 🏷️ 큼직한 카테고리 칩 */
         .category-nav {
             display: flex;
-            gap: 6px;
+            gap: 10px;
             overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
         .category-nav::-webkit-scrollbar { display: none; }
 
         .cat-chip {
-            padding: 7px 13px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 26px;
+            font-size: 1.05rem;
+            font-weight: 800;
             white-space: nowrap;
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.15s;
@@ -232,38 +242,40 @@
 
         .cat-chip.active {
             background-color: var(--accent-gold);
-            color: #121214;
+            color: #000000;
             border-color: var(--accent-gold);
-            font-weight: 800;
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.45);
         }
 
         /* ➕ 링크 추가 폼 */
         .add-form {
             display: none;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 22px;
             background-color: var(--card-bg);
-            padding: 14px;
-            border-radius: 16px;
-            border: 1px solid var(--accent-gold);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            padding: 18px;
+            border-radius: 20px;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
         }
 
         body.edit-mode .add-form { display: flex; }
 
         .form-row {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .add-form input, .add-form select {
-            padding: 10px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
             flex: 1;
-            font-size: 0.9rem;
+            min-width: 180px;
+            font-size: 1.1rem;
             font-family: inherit;
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -272,69 +284,69 @@
         }
 
         .btn-smart-fill {
-            background-color: rgba(212, 175, 55, 0.15);
+            background-color: rgba(255, 215, 0, 0.2);
             color: var(--accent-gold);
-            border: 1px solid var(--accent-gold);
-            border-radius: 10px;
-            padding: 10px 12px;
-            font-size: 0.82rem;
-            font-weight: 700;
+            border: 2px solid var(--accent-gold);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 900;
             cursor: pointer;
             white-space: nowrap;
         }
 
         .add-btn {
-            background: linear-gradient(135deg, #D4AF37 0%, #AA8010 100%);
-            color: #121214;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            color: #000000;
             border: none;
-            padding: 11px;
-            border-radius: 10px;
+            padding: 16px;
+            border-radius: 16px;
             cursor: pointer;
-            font-weight: 800;
-            font-size: 0.92rem;
+            font-weight: 900;
+            font-size: 1.2rem;
         }
 
-        /* 📂 섹션 타이틀 */
+        /* 📂 섹션 타이틀 (시원하고 큼직하게) */
         .section-title {
-            font-size: 0.96rem;
-            margin: 14px 0 8px 2px;
+            font-size: 1.35rem;
+            margin: 22px 0 12px 4px;
             color: var(--text-color);
-            font-weight: 800;
+            font-weight: 900;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
         }
 
-        /* 📱 모바일 최적화 버튼 그리드 */
+        /* 📱 큼직한 버튼 그리드: 
+           - 스마트폰 세로 모드: 넉넉한 1열 카드 (또는 화면 큰 폰 2열)
+        */
         .button-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 14px;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
         }
 
-        /* 🔄 가로 회전 (Landscape) 모드 최적화: 3~4열로 시원하게 확장 */
-        @media (min-width: 600px) or (orientation: landscape) {
-            .header-banner {
-                padding: 10px 16px;
-                margin-bottom: 10px;
-            }
-            .header-banner h2 {
-                font-size: 1.15rem;
-            }
+        /* 화면 폭 420px 이상 또는 가로 모드일 때: 시원한 2~3열 */
+        @media (min-width: 420px) {
             .button-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        /* 🔄 가로 회전 (Landscape) 모드: 3~4열로 쾌적하게 펼쳐짐 */
+        @media screen and (orientation: landscape) {
+            .button-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+                gap: 14px !important;
             }
             .link-btn {
-                padding: 12px 32px 12px 12px;
-                min-height: 52px;
+                padding: 18px 50px 18px 18px !important;
+                min-height: 80px !important;
             }
-        }
-
-        @media (min-width: 900px) {
-            .button-grid {
-                grid-template-columns: repeat(4, 1fr);
+            .link-title {
+                font-size: 1.25rem !important;
             }
         }
 
@@ -343,65 +355,72 @@
             display: block;
         }
 
+        /* 🔲 링크 카드: 돋보기 없이도 팍 띄는 대형 활자 */
         .link-btn {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             justify-content: center;
             text-decoration: none;
-            padding: 11px 32px 11px 11px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.88rem;
-            border: 1px solid var(--card-border);
+            padding: 18px 50px 18px 18px;
+            border-radius: 18px;
+            font-weight: 900;
+            border: 2px solid var(--card-border);
             background-color: var(--card-bg);
             color: var(--text-color);
-            box-shadow: 0 2px 6px var(--button-shadow);
+            box-shadow: 0 4px 12px var(--button-shadow);
             transition: all 0.12s ease;
-            min-height: 52px;
+            min-height: 74px;
             word-break: keep-all;
             overflow: hidden;
         }
 
         .link-btn:active {
             transform: scale(0.97);
-            filter: brightness(1.2);
+            filter: brightness(1.25);
+            border-color: var(--accent-gold);
         }
 
+        /* ⭐ 상호명 초대형 폰트 (1.28rem = 약 26px) */
         .link-title {
             display: block;
             width: 100%;
-            white-space: nowrap;
+            font-size: 1.28rem;
+            font-weight: 900;
+            line-height: 1.35;
+            letter-spacing: -0.4px;
+            white-space: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 0.88rem;
-            line-height: 1.25;
         }
 
         .link-url-preview {
-            font-size: 0.68rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
-            margin-top: 3px;
+            margin-top: 5px;
             width: 100%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-weight: 400;
+            font-weight: 600;
         }
 
+        /* 📋 큼직한 복사 버튼 */
         .copy-btn {
             position: absolute;
             top: 50%;
-            right: 6px;
+            right: 10px;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.14);
             color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            width: 26px;
-            height: 26px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            width: 38px;
+            height: 38px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -411,64 +430,65 @@
         .copy-btn:active {
             transform: translateY(-50%) scale(0.9);
             background: var(--accent-gold);
-            color: #121214;
+            color: #000000;
         }
 
         .delete-btn {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: -8px;
+            right: -8px;
             background-color: #ff3b30;
             color: white;
             border: 2px solid var(--container-bg);
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 11px;
+            font-weight: 900;
+            font-size: 15px;
             z-index: 10;
         }
 
         body.edit-mode .delete-btn { display: flex; }
 
-        /* 카테고리별 테마 테두리 */
-        .cat-top { border-left: 3.5px solid #D4AF37; }
-        .cat-partner { border-left: 3.5px solid #34C759; }
-        .cat-design { border-left: 3.5px solid #AF52DE; }
-        .cat-frequent { border-left: 3.5px solid #007AFF; }
+        /* 카테고리별 테마 테두리 (6px 두께로 선명) */
+        .cat-top { border-left: 6px solid #FFD700 !important; }
+        .cat-partner { border-left: 6px solid #34C759 !important; }
+        .cat-design { border-left: 6px solid #AF52DE !important; }
+        .cat-frequent { border-left: 6px solid #0A84FF !important; }
 
         .loading-spinner {
             text-align: center;
             color: var(--text-muted);
-            font-weight: 600;
-            padding: 24px;
-            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 36px;
+            font-size: 1.2rem;
             grid-column: 1 / -1;
         }
 
         .bottom-bar {
-            margin-top: 18px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border-color);
+            margin-top: 28px;
+            padding-top: 16px;
+            border-top: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.74rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 📱 대표 & 실장 헤더 -->
+        <!-- 👑 상단 헤더 -->
         <div class="header-banner">
             <div class="header-title-box">
                 <h2>👑 주누링크 <span class="vip-badge">VIP</span></h2>
-                <p class="header-subtitle">주누디자인 대표 & 실장 전용 포털</p>
+                <p class="header-subtitle">주누디자인 대표 & 실장 전용</p>
             </div>
             <div class="header-actions">
                 <button id="btnInstall" class="header-btn install-btn" style="display:none;" onclick="installApp()">📲 앱 설치</button>
@@ -477,15 +497,15 @@
             </div>
         </div>
 
-        <!-- 🔍 초고속 검색창 -->
+        <!-- 🔍 시원하고 큰 검색창 -->
         <div class="toolbar">
             <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="🔍 링크 이름 또는 주소 검색..." oninput="handleSearch(this.value)">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 링크 이름 검색..." oninput="handleSearch(this.value)">
                 <button id="searchClear" class="search-clear" onclick="clearSearch()">✕</button>
             </div>
         </div>
 
-        <!-- 🏷️ 카테고리 필터 칩 (스크롤형) -->
+        <!-- 🏷️ 큼직한 카테고리 칩 -->
         <div class="category-nav">
             <div class="cat-chip active" onclick="filterCategory('all', this)">전체보기</div>
             <div class="cat-chip" onclick="filterCategory('top', this)">🌟 최상단 즐겨찾기</div>
@@ -494,7 +514,7 @@
             <div class="cat-chip" onclick="filterCategory('frequent', this)">⚡ 마켓·어드민</div>
         </div>
 
-        <!-- ➕ 링크 추가 폼 (편집 모드 시) -->
+        <!-- ➕ 링크 추가 폼 -->
         <div class="add-form" id="addForm">
             <div class="form-row">
                 <input type="text" id="inputName" placeholder="버튼 이름 (예: 성원애드피아)">
@@ -509,10 +529,10 @@
                 <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)" onchange="smartSuggestName(this.value)">
                 <button type="button" class="btn-smart-fill" onclick="smartSuggestName(document.getElementById('inputUrl').value)">🤖 자동완성</button>
             </div>
-            <button id="btnAdd" class="add-btn" onclick="addLink()">링크 등록 ➕</button>
+            <button id="btnAdd" class="add-btn" onclick="addLink()">새 링크 등록 ➕</button>
         </div>
 
-        <!-- 4대 카테고리 섹션 -->
+        <!-- 4대 카테고리 목록 -->
         <div id="section-top" class="cat-section">
             <div class="section-title">🌟 최상단 즐겨찾기</div>
             <div class="button-grid" id="grid-top">
@@ -536,7 +556,7 @@
         </div>
 
         <div class="bottom-bar">
-            <span>주누디자인 대표 & 실장 • 가로세로 자동회전</span>
+            <span>주누디자인 대표 & 실장 전용 • 가로세로 자동회전</span>
             <span id="linkCount">0개 연결됨</span>
         </div>
     </div>
@@ -548,10 +568,12 @@
         let currentFilter = 'all';
         let deferredPrompt = null;
 
-        // PWA 서비스워커 등록
+        // PWA 서비스워커 등록 및 최신화
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(() => {});
+                navigator.serviceWorker.register('./sw.js?v=3').then(reg => {
+                    reg.update();
+                }).catch(() => {});
             });
         }
 
@@ -573,8 +595,8 @@
             deferredPrompt = null;
         }
 
-        // 햅틱 진동 피드백
-        function triggerHaptic(duration = 18) {
+        // 갤럭시 햅틱 진동 피드백
+        function triggerHaptic(duration = 20) {
             if (navigator.vibrate) {
                 try { navigator.vibrate(duration); } catch (_) {}
             }
@@ -613,12 +635,11 @@
                 else if (!nameInput.value) {
                     nameInput.value = host.replace("www.", "").split(".")[0].toUpperCase();
                 }
-                triggerHaptic(12);
+                triggerHaptic(15);
             } catch (_) {}
         }
 
         async function fetchLinks() {
-            // 캐시 데이터로 즉시 0ms 렌더링
             const cached = localStorage.getItem("joonoo_links_cache");
             if (cached) {
                 try {
@@ -638,7 +659,7 @@
                 }
             } catch (error) {
                 if (!links.length) {
-                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결에 실패했습니다. 새로고침을 해주세요.</div>";
+                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결에 실패했습니다. 화면을 당겨 새로고침해 주세요.</div>";
                 }
             }
         }
@@ -679,7 +700,7 @@
                 anchor.target = "_blank";
                 anchor.rel = "noopener noreferrer";
                 anchor.className = `link-btn cat-${cat}`;
-                anchor.addEventListener("click", () => triggerHaptic(18));
+                anchor.addEventListener("click", () => triggerHaptic(20));
 
                 const titleSpan = document.createElement("span");
                 titleSpan.className = "link-title";
@@ -703,11 +724,11 @@
                 copyBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    triggerHaptic(25);
+                    triggerHaptic(30);
                     try {
                         await navigator.clipboard.writeText(safeUrl);
                         copyBtn.textContent = "✓";
-                        copyBtn.style.color = "#D4AF37";
+                        copyBtn.style.color = "#FFD700";
                         setTimeout(() => {
                             copyBtn.textContent = "📋";
                             copyBtn.style.color = "";
@@ -752,7 +773,7 @@
         }
 
         function handleSearch(val) {
-            document.getElementById("searchClear").style.display = val ? "block" : "none";
+            document.getElementById("searchClear").style.display = val ? "flex" : "none";
             renderLinks();
         }
 
@@ -809,14 +830,14 @@
             } catch (error) {
                 alert("추가 중 오류가 발생했습니다.");
             } finally {
-                btnAdd.textContent = "링크 등록 ➕";
+                btnAdd.textContent = "새 링크 등록 ➕";
                 btnAdd.disabled = false;
             }
         }
 
         async function deleteLink(id) {
             if (!confirm("이 링크를 삭제하시겠습니까?")) return;
-            triggerHaptic(35);
+            triggerHaptic(40);
             try {
                 const res = await fetch(SCRIPT_URL, {
                     method: "POST",
@@ -834,11 +855,11 @@
         }
 
         function toggleEditMode() {
-            triggerHaptic(18);
+            triggerHaptic(20);
             const isEdit = document.body.classList.toggle("edit-mode");
             const btn = document.getElementById("btnEditMode");
             btn.textContent = isEdit ? "완료 🔓" : "편집 🔒";
-            btn.style.color = isEdit ? "#D4AF37" : "";
+            btn.style.color = isEdit ? "#FFD700" : "";
         }
 
         function toggleTheme() {
@@ -855,6 +876,14 @@
                 localStorage.setItem("junu_vip_theme", "light");
             }
         }
+
+        // 화면 회전 감지 시 즉시 레이아웃 재계산
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => { renderLinks(); }, 150);
+        });
+        window.addEventListener('resize', () => {
+            renderLinks();
+        });
 
         window.onload = () => {
             if (localStorage.getItem("junu_vip_theme") === "light") {

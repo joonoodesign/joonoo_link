@@ -1,5 +1,5 @@
-// 주누링크 VIP 서비스워커 (오프라인 캐싱 & 초고속 앱 구동)
-const CACHE_NAME = 'joonoo-link-vip-v1';
+// 주누링크 VIP 서비스워커 (v2 대형 활자 & 자유 회전 업데이트)
+const CACHE_NAME = 'joonoo-link-vip-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -10,10 +10,10 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
@@ -30,7 +30,6 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Google Apps Script API 요청은 네트워크 직접 통신
   if (e.request.url.includes('script.google.com')) {
     e.respondWith(fetch(e.request));
     return;
