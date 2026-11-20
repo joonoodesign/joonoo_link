@@ -2,30 +2,53 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주누디자인 링크생성기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>주누디자인 링크마스터 VIP (대표 전용)</title>
+    
+    <!-- PWA 모바일 앱 설정 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0B192C">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="주누링크">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="icon-192.png">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <style>
         :root {
-            --bg-color: #f0f2f5;
+            --bg-color: #0f1015;
+            --container-bg: #16181f;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-color: #f2f4f8;
+            --text-muted: #8b92a4;
+            --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
+            --accent-gold: #D4AF37;
+            --accent-blue: #007aff;
+            --button-shadow: rgba(0, 0, 0, 0.35);
+            --border-color: #272a34;
+            --input-focus: rgba(212, 175, 55, 0.4);
+            --safe-bottom: env(safe-area-inset-bottom, 16px);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f6fa;
             --container-bg: #ffffff;
-            --text-color: #1d1d1f;
-            --text-muted: #86868b;
-            --primary-gradient: linear-gradient(135deg, #007aff 0%, #0056b3 100%);
+            --card-bg: #ffffff;
+            --card-border: #e2e6ef;
+            --text-color: #1a1c22;
+            --text-muted: #6b7280;
+            --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
             --button-shadow: rgba(0, 0, 0, 0.08);
-            --border-color: #e5e5ea;
+            --border-color: #e5e8f0;
             --input-focus: rgba(0, 122, 255, 0.3);
         }
 
-        [data-theme="dark"] {
-            --bg-color: #151516;
-            --container-bg: #1c1c1e;
-            --text-color: #f5f5f7;
-            --text-muted: #a1a1a6;
-            --primary-gradient: linear-gradient(135deg, #0a84ff 0%, #004080 100%);
-            --button-shadow: rgba(0, 0, 0, 0.4);
-            --border-color: #38383a;
-            --input-focus: rgba(10, 132, 255, 0.4);
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -34,290 +57,499 @@
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
             margin: 0;
-            padding: 2vw;
+            padding: 12px;
+            padding-bottom: calc(var(--safe-bottom) + 24px);
             min-height: 100dvh;
-            box-sizing: border-box;
+            user-select: none;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             background-color: var(--container-bg);
-            padding: 36px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px var(--button-shadow);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px var(--button-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .header-banner {
             background: var(--primary-gradient);
             color: white;
-            padding: 22px 28px;
+            padding: 18px 20px;
             border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.25);
+            gap: 10px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 24px rgba(11, 25, 44, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-title-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .header-banner h2 {
             margin: 0;
-            font-size: 1.55rem;
-            font-weight: 700;
+            font-size: 1.35rem;
+            font-weight: 800;
             letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vip-badge {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 100%);
+            color: #121214;
+            font-size: 0.72rem;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-shadow: none;
+        }
+
+        .header-subtitle {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0;
         }
 
         .header-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .header-btn {
+            background-color: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 7px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-btn:active {
+            transform: scale(0.96);
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .header-btn.install-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8010 100%);
+            color: #121214;
+            font-weight: 800;
+            border: none;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-right: 38px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px var(--input-focus);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 16px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .category-nav {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+            scrollbar-width: none;
+        }
+        .category-nav::-webkit-scrollbar { display: none; }
+
+        .cat-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-chip.active {
+            background-color: var(--accent-gold);
+            color: #121214;
+            border-color: var(--accent-gold);
+            font-weight: 800;
+        }
+
+        .add-form {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: var(--card-bg);
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid var(--accent-gold);
+        }
+
+        body.edit-mode .add-form { display: flex; }
+
+        .form-row {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
 
-        .header-btn {
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 9px 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .header-btn:hover { background-color: rgba(255, 255, 255, 0.3); transform: scale(1.03); }
-        .header-btn.active { background-color: #ffffff; color: #0056b3; }
-
-        .toolbar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 13px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 0.98rem;
-            font-family: inherit;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            box-sizing: border-box;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #007aff;
-            box-shadow: 0 0 0 3px var(--input-focus);
-        }
-
-        .add-form {
-            display: none;
-            gap: 12px;
-            margin-bottom: 32px;
-            background-color: var(--bg-color);
-            padding: 18px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        body.edit-mode .add-form { display: flex; }
-
         .add-form input, .add-form select {
-            padding: 13px;
+            padding: 11px 14px;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 10px;
             flex: 1;
-            font-size: 0.98rem;
+            min-width: 140px;
+            font-size: 0.92rem;
             font-family: inherit;
             background-color: var(--container-bg);
             color: var(--text-color);
+            outline: none;
         }
 
         .add-form input:focus, .add-form select:focus {
-            outline: none;
-            border-color: #007aff;
-            box-shadow: 0 0 0 3px var(--input-focus);
+            border-color: var(--accent-gold);
+        }
+
+        .btn-smart-fill {
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         .add-btn {
-            background: var(--primary-gradient);
-            color: white;
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8010 100%);
+            color: #121214;
             border: none;
-            padding: 13px 22px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 0.98rem;
-            min-width: 115px;
+            font-weight: 800;
+            font-size: 0.95rem;
         }
 
-        .add-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
         .section-title {
-            font-size: 1.2rem;
-            margin-bottom: 16px;
+            font-size: 1.05rem;
+            margin: 18px 0 10px 0;
             color: var(--text-color);
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .button-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 14px;
-            margin-bottom: 34px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .link-wrapper { position: relative; display: block; }
+        @media (max-width: 480px) {
+            .button-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .link-wrapper {
+            position: relative;
+            display: block;
+        }
 
         .link-btn {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             justify-content: center;
-            text-align: center;
             text-decoration: none;
-            padding: 18px 36px 18px 15px;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 1.02rem;
-            border: 1px solid transparent;
-            box-shadow: 0 4px 10px var(--button-shadow);
-            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+            padding: 14px 34px 14px 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.94rem;
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            box-shadow: 0 4px 12px var(--button-shadow);
+            transition: all 0.15s ease;
+            min-height: 60px;
             word-break: keep-all;
+            overflow: hidden;
         }
 
-        .link-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 18px var(--button-shadow);
-            filter: brightness(1.03);
+        .link-btn:active {
+            transform: scale(0.97);
+            filter: brightness(1.15);
+        }
+
+        .link-url-preview {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 400;
         }
 
         .copy-btn {
             position: absolute;
             top: 50%;
-            right: 10px;
+            right: 8px;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.08);
-            color: inherit;
-            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0.7;
-            transition: opacity 0.2s, background 0.2s;
+            transition: all 0.15s;
         }
 
-        .copy-btn:hover { opacity: 1; background: rgba(0, 0, 0, 0.16); }
+        .copy-btn:active {
+            transform: translateY(-50%) scale(0.9);
+            background: var(--accent-gold);
+            color: #121214;
+        }
 
         .delete-btn {
             position: absolute;
-            top: -9px;
-            right: -9px;
+            top: -6px;
+            right: -6px;
             background-color: #ff3b30;
             color: white;
             border: 2px solid var(--container-bg);
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
             z-index: 10;
         }
 
         body.edit-mode .delete-btn { display: flex; }
-        .delete-btn:hover { background-color: #d70015; }
 
-        .loading {
+        /* 카테고리별 테마 테두리/포인트 */
+        .cat-top { border-left: 4px solid #D4AF37; }
+        .cat-partner { border-left: 4px solid #34C759; }
+        .cat-design { border-left: 4px solid #AF52DE; }
+        .cat-frequent { border-left: 4px solid #007AFF; }
+
+        .loading-spinner {
             text-align: center;
             color: var(--text-muted);
             font-weight: 600;
-            padding: 20px;
+            padding: 30px;
+            font-size: 0.9rem;
             grid-column: 1 / -1;
         }
 
-        .cat-top { background-color: #fff8e6; border-color: #ffe08a; color: #946c00; }
-        .cat-partner { background-color: #e6f6eb; border-color: #93d5a6; color: #1e6533; }
-        .cat-design { background-color: #f1ecf9; border-color: #c9b9e8; color: #4b307d; }
-        .cat-frequent { background-color: #e6f7fa; border-color: #92e0ed; color: #006c7e; }
-
-        [data-theme="dark"] .cat-top { background-color: #2b2205; border-color: #664d03; color: #ffd147; }
-        [data-theme="dark"] .cat-partner { background-color: #0c2317; border-color: #176536; color: #8ee0b1; }
-        [data-theme="dark"] .cat-design { background-color: #1c152a; border-color: #4b307d; color: #d6c6ff; }
-        [data-theme="dark"] .cat-frequent { background-color: #0c262a; border-color: #0e6f82; color: #7be4fa; }
-
-        @media screen and (max-width: 768px) {
-            .container { padding: 22px 16px; border-radius: 20px; }
-            .header-banner { flex-direction: column; text-align: center; padding: 18px; }
-            .add-form { flex-direction: column; padding: 14px; }
-            .button-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px; }
-            .link-btn { padding: 14px 30px 14px 10px; font-size: 0.92rem; }
+        /* 하단 퀵 모바일 바 */
+        .bottom-bar {
+            margin-top: 24px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.76rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- VIP 헤더 -->
         <div class="header-banner">
-            <h2>주누디자인 링크생성기</h2>
+            <div class="header-title-box">
+                <h2>👑 주누링크 <span class="vip-badge">VIP</span></h2>
+                <p class="header-subtitle">주누디자인 대표 1인 전용 초고속 모바일 포털</p>
+            </div>
             <div class="header-actions">
-                <button class="header-btn" id="btnEditMode" onclick="toggleEditMode()">편집 잠금 🔒</button>
-                <button class="header-btn" id="btnTheme" onclick="toggleTheme()">다크모드 🌙</button>
+                <button id="btnInstall" class="header-btn install-btn" style="display:none;" onclick="installApp()">📲 앱 설치</button>
+                <button id="btnEditMode" class="header-btn" onclick="toggleEditMode()">편집 🔒</button>
+                <button id="btnTheme" class="header-btn" onclick="toggleTheme()">☀️</button>
             </div>
         </div>
 
+        <!-- 검색창 -->
         <div class="toolbar">
-            <input type="search" id="searchInput" class="search-input" placeholder="🔍 링크 이름 또는 주소 검색..." oninput="renderLinks()">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 링크 이름 또는 주소 검색..." oninput="handleSearch(this.value)">
+                <button id="searchClear" class="search-clear" onclick="clearSearch()">✕</button>
+            </div>
         </div>
 
-        <div class="add-form">
-            <select id="inputCategory">
-                <option value="top">⭐ 최상단 즐겨찾기</option>
-                <option value="partner">🏢 인쇄소 거래처</option>
-                <option value="design">🎨 디자인 소스</option>
-                <option value="frequent">📌 자주가는 사이트</option>
-            </select>
-            <input type="text" id="inputName" placeholder="버튼 이름 (예: 구글)">
-            <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)">
-            <button class="add-btn" id="btnAdd" onclick="addLink()">추가하기 ➕</button>
+        <!-- 카테고리 필터 칩 -->
+        <div class="category-nav">
+            <div class="cat-chip active" onclick="filterCategory('all', this)">전체보기</div>
+            <div class="cat-chip" onclick="filterCategory('top', this)">🌟 최상단 즐겨찾기</div>
+            <div class="cat-chip" onclick="filterCategory('partner', this)">🏭 인쇄·협력업체</div>
+            <div class="cat-chip" onclick="filterCategory('design', this)">🎨 디자인·AI소스</div>
+            <div class="cat-chip" onclick="filterCategory('frequent', this)">⚡ 마켓·어드민</div>
         </div>
 
-        <div class="section-title">⭐ 최상단 즐겨찾기</div>
-        <div class="button-grid" id="grid-top"><div class="loading">구글 시트에서 데이터를 불러오는 중입니다...⏳</div></div>
+        <!-- 링크 추가 폼 (편집 모드 시) -->
+        <div class="add-form" id="addForm">
+            <div class="form-row">
+                <input type="text" id="inputName" placeholder="버튼 이름 (예: 충무로 성원애드피아)">
+                <select id="inputCategory">
+                    <option value="top">🌟 최상단 즐겨찾기</option>
+                    <option value="partner">🏭 인쇄·협력업체</option>
+                    <option value="design">🎨 디자인·AI소스</option>
+                    <option value="frequent">⚡ 마켓·어드민</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)" onchange="smartSuggestName(this.value)">
+                <button type="button" class="btn-smart-fill" onclick="smartSuggestName(document.getElementById('inputUrl').value)">🤖 자동완성</button>
+            </div>
+            <button id="btnAdd" class="add-btn" onclick="addLink()">대표 VIP 링크 등록 ➕</button>
+        </div>
 
-        <hr style="border:0; height:1px; background:var(--border-color); margin: 26px 0;">
+        <!-- 4대 카테고리 그리드 -->
+        <div id="section-top" class="cat-section">
+            <div class="section-title">🌟 최상단 즐겨찾기</div>
+            <div class="button-grid" id="grid-top">
+                <div class="loading-spinner">링크를 불러오는 중입니다...</div>
+            </div>
+        </div>
 
-        <div class="section-title">🏢 인쇄소 거래처</div>
-        <div class="button-grid" id="grid-partner"></div>
+        <div id="section-partner" class="cat-section">
+            <div class="section-title">🏭 인쇄·협력업체</div>
+            <div class="button-grid" id="grid-partner"></div>
+        </div>
 
-        <div class="section-title">🎨 디자인 소스</div>
-        <div class="button-grid" id="grid-design"></div>
+        <div id="section-design" class="cat-section">
+            <div class="section-title">🎨 디자인·AI소스</div>
+            <div class="button-grid" id="grid-design"></div>
+        </div>
 
-        <div class="section-title">📌 자주가는 사이트</div>
-        <div class="button-grid" id="grid-frequent"></div>
+        <div id="section-frequent" class="cat-section">
+            <div class="section-title">⚡ 마켓·어드민 & 기타</div>
+            <div class="button-grid" id="grid-frequent"></div>
+        </div>
+
+        <div class="bottom-bar">
+            <span>주누디자인 대표 전용 • 0ms 로컬 캐싱</span>
+            <span id="linkCount">0개 연결됨</span>
+        </div>
     </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec";
         const VALID_CATEGORIES = new Set(["top", "partner", "design", "frequent"]);
         let links = [];
+        let currentFilter = 'all';
+        let deferredPrompt = null;
+
+        // PWA 서비스워커 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
+            });
+        }
+
+        // 갤럭시 PWA 설치 프롬프트 감지
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('btnInstall');
+            if (btn) btn.style.display = 'inline-flex';
+        });
+
+        async function installApp() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                document.getElementById('btnInstall').style.display = 'none';
+            }
+            deferredPrompt = null;
+        }
+
+        // 갤럭시 햅틱 진동 피드백
+        function triggerHaptic(duration = 18) {
+            if (navigator.vibrate) {
+                try { navigator.vibrate(duration); } catch (_) {}
+            }
+        }
 
         function sanitizeUrl(raw) {
             try {
-                const candidate = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
+                const candidate = String(raw).trim();
                 const parsed = new URL(candidate);
                 if (parsed.protocol === "http:" || parsed.protocol === "https:") {
                     return parsed.href;
@@ -326,39 +558,85 @@
             return null;
         }
 
+        // 스마트 도메인 분석 자동완성
+        function smartSuggestName(urlStr) {
+            if (!urlStr) return;
+            const safe = sanitizeUrl(urlStr);
+            if (!safe) return;
+            const nameInput = document.getElementById("inputName");
+            const catSelect = document.getElementById("inputCategory");
+            
+            try {
+                const host = new URL(safe).hostname.toLowerCase();
+                if (host.includes("swadpia")) { nameInput.value = "성원애드피아"; catSelect.value = "partner"; }
+                else if (host.includes("eprint")) { nameInput.value = "이프린트"; catSelect.value = "partner"; }
+                else if (host.includes("cafe24")) { nameInput.value = "카페24 관리자"; catSelect.value = "frequent"; }
+                else if (host.includes("smartstore")) { nameInput.value = "스마트스토어 센터"; catSelect.value = "frequent"; }
+                else if (host.includes("coupang")) { nameInput.value = "쿠팡 윙"; catSelect.value = "frequent"; }
+                else if (host.includes("esmplus")) { nameInput.value = "ESM Plus (G마켓/옥션)"; catSelect.value = "frequent"; }
+                else if (host.includes("11st")) { nameInput.value = "11번가 셀러오피스"; catSelect.value = "frequent"; }
+                else if (host.includes("freepik")) { nameInput.value = "프리픽 (Freepik)"; catSelect.value = "design"; }
+                else if (host.includes("flaticon")) { nameInput.value = "플랫아이콘"; catSelect.value = "design"; }
+                else if (!nameInput.value) {
+                    nameInput.value = host.replace("www.", "").split(".")[0].toUpperCase();
+                }
+                triggerHaptic(12);
+            } catch (_) {}
+        }
+
         async function fetchLinks() {
+            // 로컬 스토리지에 캐시된 데이터가 있으면 0ms 즉시 렌더링
+            const cached = localStorage.getItem("joonoo_links_cache");
+            if (cached) {
+                try {
+                    links = JSON.parse(cached);
+                    renderLinks();
+                } catch (_) {}
+            }
+
             try {
                 const response = await fetch(SCRIPT_URL);
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
-                links = Array.isArray(data) ? data : [];
-                renderLinks();
+                if (Array.isArray(data)) {
+                    links = data;
+                    localStorage.setItem("joonoo_links_cache", JSON.stringify(data));
+                    renderLinks();
+                }
             } catch (error) {
-                const topGrid = document.getElementById("grid-top");
-                topGrid.textContent = "";
-                const msg = document.createElement("div");
-                msg.className = "loading";
-                msg.textContent = "데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.";
-                topGrid.appendChild(msg);
+                if (!links.length) {
+                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결에 실패했습니다. 새로고침을 눌러주세요.</div>";
+                }
             }
         }
 
         function renderLinks() {
             const query = (document.getElementById("searchInput").value || "").trim().toLowerCase();
             VALID_CATEGORIES.forEach(cat => {
-                document.getElementById(`grid-${cat}`).textContent = "";
+                const el = document.getElementById(`grid-${cat}`);
+                if (el) el.textContent = "";
             });
+
+            let visibleCount = 0;
 
             links.forEach(link => {
                 const safeUrl = sanitizeUrl(String(link.url || ""));
                 if (!safeUrl) return;
                 const nameStr = String(link.name || safeUrl);
+                
                 if (query && !nameStr.toLowerCase().includes(query) && !safeUrl.toLowerCase().includes(query)) {
                     return;
                 }
 
                 const cat = VALID_CATEGORIES.has(link.category) ? link.category : "frequent";
+                if (currentFilter !== 'all' && currentFilter !== cat) {
+                    return;
+                }
+
                 const grid = document.getElementById(`grid-${cat}`);
+                if (!grid) return;
+
+                visibleCount++;
 
                 const wrapper = document.createElement("div");
                 wrapper.className = "link-wrapper";
@@ -368,7 +646,20 @@
                 anchor.target = "_blank";
                 anchor.rel = "noopener noreferrer";
                 anchor.className = `link-btn cat-${cat}`;
-                anchor.textContent = nameStr;
+                anchor.addEventListener("click", () => triggerHaptic(20));
+
+                const titleSpan = document.createElement("span");
+                titleSpan.textContent = nameStr;
+                anchor.appendChild(titleSpan);
+
+                const urlPreview = document.createElement("span");
+                urlPreview.className = "link-url-preview";
+                try {
+                    urlPreview.textContent = new URL(safeUrl).hostname.replace("www.", "");
+                } catch (_) {
+                    urlPreview.textContent = safeUrl;
+                }
+                anchor.appendChild(urlPreview);
 
                 const copyBtn = document.createElement("button");
                 copyBtn.type = "button";
@@ -378,10 +669,15 @@
                 copyBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    triggerHaptic(30);
                     try {
                         await navigator.clipboard.writeText(safeUrl);
                         copyBtn.textContent = "✓";
-                        setTimeout(() => { copyBtn.textContent = "📋"; }, 1200);
+                        copyBtn.style.color = "#D4AF37";
+                        setTimeout(() => {
+                            copyBtn.textContent = "📋";
+                            copyBtn.style.color = "";
+                        }, 1200);
                     } catch (_) {
                         prompt("아래 주소를 복사하세요:", safeUrl);
                     }
@@ -392,13 +688,54 @@
                 delBtn.className = "delete-btn";
                 delBtn.title = "삭제";
                 delBtn.textContent = "×";
-                delBtn.addEventListener("click", () => deleteLink(link.id));
+                delBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    deleteLink(link.id);
+                });
 
                 wrapper.appendChild(anchor);
                 wrapper.appendChild(copyBtn);
                 wrapper.appendChild(delBtn);
                 grid.appendChild(wrapper);
             });
+
+            // 빈 섹션 숨김 처리 (필터 적용 시)
+            VALID_CATEGORIES.forEach(cat => {
+                const sec = document.getElementById(`section-${cat}`);
+                const grid = document.getElementById(`grid-${cat}`);
+                if (sec && grid) {
+                    if (currentFilter !== 'all' && currentFilter !== cat) {
+                        sec.style.display = 'none';
+                    } else if (grid.children.length === 0 && query) {
+                        sec.style.display = 'none';
+                    } else {
+                        sec.style.display = 'block';
+                    }
+                }
+            });
+
+            document.getElementById("linkCount").textContent = `${visibleCount}개 연결됨`;
+        }
+
+        function handleSearch(val) {
+            document.getElementById("searchClear").style.display = val ? "block" : "none";
+            renderLinks();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById("searchInput");
+            input.value = "";
+            document.getElementById("searchClear").style.display = "none";
+            renderLinks();
+        }
+
+        function filterCategory(cat, chipEl) {
+            triggerHaptic(15);
+            currentFilter = cat;
+            document.querySelectorAll(".cat-chip").forEach(c => c.classList.remove("active"));
+            chipEl.classList.add("active");
+            renderLinks();
         }
 
         async function addLink() {
@@ -407,10 +744,11 @@
             const rawUrl = document.getElementById("inputUrl").value.trim();
             const btnAdd = document.getElementById("btnAdd");
 
-            if (!name || !rawUrl) return alert("버튼 이름과 링크 주소를 모두 입력해주세요!");
+            if (!name || !rawUrl) return alert("이름과 링크 주소를 모두 입력해주세요!");
             const safeUrl = sanitizeUrl(rawUrl);
             if (!safeUrl) return alert("올바른 http:// 또는 https:// 주소를 입력해주세요!");
 
+            triggerHaptic(25);
             btnAdd.textContent = "저장 중...";
             btnAdd.disabled = true;
 
@@ -431,19 +769,21 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
                 links.push(newLink);
+                localStorage.setItem("joonoo_links_cache", JSON.stringify(links));
                 renderLinks();
                 document.getElementById("inputName").value = "";
                 document.getElementById("inputUrl").value = "";
             } catch (error) {
                 alert("추가 중 오류가 발생했습니다.");
             } finally {
-                btnAdd.textContent = "추가하기 ➕";
+                btnAdd.textContent = "대표 VIP 링크 등록 ➕";
                 btnAdd.disabled = false;
             }
         }
 
         async function deleteLink(id) {
-            if (!confirm("이 링크를 삭제하시겠습니까? (모든 직원의 화면에서도 지워집니다)")) return;
+            if (!confirm("이 링크를 삭제하시겠습니까?")) return;
+            triggerHaptic(40);
             try {
                 const res = await fetch(SCRIPT_URL, {
                     method: "POST",
@@ -453,6 +793,7 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
                 links = links.filter(link => String(link.id) !== String(id));
+                localStorage.setItem("joonoo_links_cache", JSON.stringify(links));
                 renderLinks();
             } catch (error) {
                 alert("삭제 중 오류가 발생했습니다.");
@@ -460,30 +801,32 @@
         }
 
         function toggleEditMode() {
+            triggerHaptic(20);
             const isEdit = document.body.classList.toggle("edit-mode");
             const btn = document.getElementById("btnEditMode");
-            btn.textContent = isEdit ? "편집 중 🔓" : "편집 잠금 🔒";
-            btn.classList.toggle("active", isEdit);
+            btn.textContent = isEdit ? "완료 🔓" : "편집 🔒";
+            btn.style.color = isEdit ? "#D4AF37" : "";
         }
 
         function toggleTheme() {
+            triggerHaptic(15);
             const body = document.body;
             const btn = document.getElementById("btnTheme");
-            if (body.getAttribute("data-theme") === "dark") {
+            if (body.getAttribute("data-theme") === "light") {
                 body.removeAttribute("data-theme");
-                btn.textContent = "다크모드 🌙";
-                localStorage.setItem("junu_theme_v2", "light");
+                btn.textContent = "☀️";
+                localStorage.setItem("junu_vip_theme", "dark");
             } else {
-                body.setAttribute("data-theme", "dark");
-                btn.textContent = "라이트모드 ☀️";
-                localStorage.setItem("junu_theme_v2", "dark");
+                body.setAttribute("data-theme", "light");
+                btn.textContent = "🌙";
+                localStorage.setItem("junu_vip_theme", "light");
             }
         }
 
         window.onload = () => {
-            if (localStorage.getItem("junu_theme_v2") === "dark") {
-                document.body.setAttribute("data-theme", "dark");
-                document.getElementById("btnTheme").textContent = "라이트모드 ☀️";
+            if (localStorage.getItem("junu_vip_theme") === "light") {
+                document.body.setAttribute("data-theme", "light");
+                document.getElementById("btnTheme").textContent = "🌙";
             }
             fetchLinks();
         };

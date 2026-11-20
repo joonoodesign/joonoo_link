@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주누디자인 링크생성기</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --container-bg: #ffffff;
+            --text-color: #1d1d1f;
+            --text-muted: #86868b;
+            --primary-gradient: linear-gradient(135deg, #007aff 0%, #0056b3 100%);
+            --button-shadow: rgba(0, 0, 0, 0.08);
+            --border-color: #e5e5ea;
+            --input-focus: rgba(0, 122, 255, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #151516;
+            --container-bg: #1c1c1e;
+            --text-color: #f5f5f7;
+            --text-muted: #a1a1a6;
+            --primary-gradient: linear-gradient(135deg, #0a84ff 0%, #004080 100%);
+            --button-shadow: rgba(0, 0, 0, 0.4);
+            --border-color: #38383a;
+            --input-focus: rgba(10, 132, 255, 0.4);
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 2vw;
+            min-height: 100dvh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 36px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px var(--button-shadow);
+        }
+
+        .header-banner {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 22px 28px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.25);
+        }
+
+        .header-banner h2 {
+            margin: 0;
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 9px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover { background-color: rgba(255, 255, 255, 0.3); transform: scale(1.03); }
+        .header-btn.active { background-color: #ffffff; color: #0056b3; }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.98rem;
+            font-family: inherit;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px var(--input-focus);
+        }
+
+        .add-form {
+            display: none;
+            gap: 12px;
+            margin-bottom: 32px;
+            background-color: var(--bg-color);
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        body.edit-mode .add-form { display: flex; }
+
+        .add-form input, .add-form select {
+            padding: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            flex: 1;
+            font-size: 0.98rem;
+            font-family: inherit;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+        }
+
+        .add-form input:focus, .add-form select:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px var(--input-focus);
+        }
+
+        .add-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.98rem;
+            min-width: 115px;
+        }
+
+        .add-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 34px;
+        }
+
+        .link-wrapper { position: relative; display: block; }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            padding: 18px 36px 18px 15px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.02rem;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 10px var(--button-shadow);
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+            word-break: keep-all;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 18px var(--button-shadow);
+            filter: brightness(1.03);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.08);
+            color: inherit;
+            border: none;
+            border-radius: 8px;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s, background 0.2s;
+        }
+
+        .copy-btn:hover { opacity: 1; background: rgba(0, 0, 0, 0.16); }
+
+        .delete-btn {
+            position: absolute;
+            top: -9px;
+            right: -9px;
+            background-color: #ff3b30;
+            color: white;
+            border: 2px solid var(--container-bg);
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        body.edit-mode .delete-btn { display: flex; }
+        .delete-btn:hover { background-color: #d70015; }
+
+        .loading {
+            text-align: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
+
+        .cat-top { background-color: #fff8e6; border-color: #ffe08a; color: #946c00; }
+        .cat-partner { background-color: #e6f6eb; border-color: #93d5a6; color: #1e6533; }
+        .cat-design { background-color: #f1ecf9; border-color: #c9b9e8; color: #4b307d; }
+        .cat-frequent { background-color: #e6f7fa; border-color: #92e0ed; color: #006c7e; }
+
+        [data-theme="dark"] .cat-top { background-color: #2b2205; border-color: #664d03; color: #ffd147; }
+        [data-theme="dark"] .cat-partner { background-color: #0c2317; border-color: #176536; color: #8ee0b1; }
+        [data-theme="dark"] .cat-design { background-color: #1c152a; border-color: #4b307d; color: #d6c6ff; }
+        [data-theme="dark"] .cat-frequent { background-color: #0c262a; border-color: #0e6f82; color: #7be4fa; }
+
+        @media screen and (max-width: 768px) {
+            .container { padding: 22px 16px; border-radius: 20px; }
+            .header-banner { flex-direction: column; text-align: center; padding: 18px; }
+            .add-form { flex-direction: column; padding: 14px; }
+            .button-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px; }
+            .link-btn { padding: 14px 30px 14px 10px; font-size: 0.92rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-banner">
+            <h2>주누디자인 링크생성기</h2>
+            <div class="header-actions">
+                <button class="header-btn" id="btnEditMode" onclick="toggleEditMode()">편집 잠금 🔒</button>
+                <button class="header-btn" id="btnTheme" onclick="toggleTheme()">다크모드 🌙</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input type="search" id="searchInput" class="search-input" placeholder="🔍 링크 이름 또는 주소 검색..." oninput="renderLinks()">
+        </div>
+
+        <div class="add-form">
+            <select id="inputCategory">
+                <option value="top">⭐ 최상단 즐겨찾기</option>
+                <option value="partner">🏢 인쇄소 거래처</option>
+                <option value="design">🎨 디자인 소스</option>
+                <option value="frequent">📌 자주가는 사이트</option>
+            </select>
+            <input type="text" id="inputName" placeholder="버튼 이름 (예: 구글)">
+            <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)">
+            <button class="add-btn" id="btnAdd" onclick="addLink()">추가하기 ➕</button>
+        </div>
+
+        <div class="section-title">⭐ 최상단 즐겨찾기</div>
+        <div class="button-grid" id="grid-top"><div class="loading">구글 시트에서 데이터를 불러오는 중입니다...⏳</div></div>
+
+        <hr style="border:0; height:1px; background:var(--border-color); margin: 26px 0;">
+
+        <div class="section-title">🏢 인쇄소 거래처</div>
+        <div class="button-grid" id="grid-partner"></div>
+
+        <div class="section-title">🎨 디자인 소스</div>
+        <div class="button-grid" id="grid-design"></div>
+
+        <div class="section-title">📌 자주가는 사이트</div>
+        <div class="button-grid" id="grid-frequent"></div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec";
+        const VALID_CATEGORIES = new Set(["top", "partner", "design", "frequent"]);
+        let links = [];
+
+        function sanitizeUrl(raw) {
+            try {
+                const candidate = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
+                const parsed = new URL(candidate);
+                if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+                    return parsed.href;
+                }
+            } catch (_) {}
+            return null;
+        }
+
+        async function fetchLinks() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                links = Array.isArray(data) ? data : [];
+                renderLinks();
+            } catch (error) {
+                const topGrid = document.getElementById("grid-top");
+                topGrid.textContent = "";
+                const msg = document.createElement("div");
+                msg.className = "loading";
+                msg.textContent = "데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.";
+                topGrid.appendChild(msg);
+            }
+        }
+
+        function renderLinks() {
+            const query = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+            VALID_CATEGORIES.forEach(cat => {
+                document.getElementById(`grid-${cat}`).textContent = "";
+            });
+
+            links.forEach(link => {
+                const safeUrl = sanitizeUrl(String(link.url || ""));
+                if (!safeUrl) return;
+                const nameStr = String(link.name || safeUrl);
+                if (query && !nameStr.toLowerCase().includes(query) && !safeUrl.toLowerCase().includes(query)) {
+                    return;
+                }
+
+                const cat = VALID_CATEGORIES.has(link.category) ? link.category : "frequent";
+                const grid = document.getElementById(`grid-${cat}`);
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "link-wrapper";
+
+                const anchor = document.createElement("a");
+                anchor.href = safeUrl;
+                anchor.target = "_blank";
+                anchor.rel = "noopener noreferrer";
+                anchor.className = `link-btn cat-${cat}`;
+                anchor.textContent = nameStr;
+
+                const copyBtn = document.createElement("button");
+                copyBtn.type = "button";
+                copyBtn.className = "copy-btn";
+                copyBtn.title = "링크 복사";
+                copyBtn.textContent = "📋";
+                copyBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    try {
+                        await navigator.clipboard.writeText(safeUrl);
+                        copyBtn.textContent = "✓";
+                        setTimeout(() => { copyBtn.textContent = "📋"; }, 1200);
+                    } catch (_) {
+                        prompt("아래 주소를 복사하세요:", safeUrl);
+                    }
+                });
+
+                const delBtn = document.createElement("button");
+                delBtn.type = "button";
+                delBtn.className = "delete-btn";
+                delBtn.title = "삭제";
+                delBtn.textContent = "×";
+                delBtn.addEventListener("click", () => deleteLink(link.id));
+
+                wrapper.appendChild(anchor);
+                wrapper.appendChild(copyBtn);
+                wrapper.appendChild(delBtn);
+                grid.appendChild(wrapper);
+            });
+        }
+
+        async function addLink() {
+            const category = document.getElementById("inputCategory").value;
+            const name = document.getElementById("inputName").value.trim();
+            const rawUrl = document.getElementById("inputUrl").value.trim();
+            const btnAdd = document.getElementById("btnAdd");
+
+            if (!name || !rawUrl) return alert("버튼 이름과 링크 주소를 모두 입력해주세요!");
+            const safeUrl = sanitizeUrl(rawUrl);
+            if (!safeUrl) return alert("올바른 http:// 또는 https:// 주소를 입력해주세요!");
+
+            btnAdd.textContent = "저장 중...";
+            btnAdd.disabled = true;
+
+            const newLink = {
+                action: "add",
+                id: Date.now().toString(),
+                name,
+                url: safeUrl,
+                category: VALID_CATEGORIES.has(category) ? category : "frequent"
+            };
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify(newLink),
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                links.push(newLink);
+                renderLinks();
+                document.getElementById("inputName").value = "";
+                document.getElementById("inputUrl").value = "";
+            } catch (error) {
+                alert("추가 중 오류가 발생했습니다.");
+            } finally {
+                btnAdd.textContent = "추가하기 ➕";
+                btnAdd.disabled = false;
+            }
+        }
+
+        async function deleteLink(id) {
+            if (!confirm("이 링크를 삭제하시겠습니까? (모든 직원의 화면에서도 지워집니다)")) return;
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "delete", id: String(id) }),
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                links = links.filter(link => String(link.id) !== String(id));
+                renderLinks();
+            } catch (error) {
+                alert("삭제 중 오류가 발생했습니다.");
+            }
+        }
+
+        function toggleEditMode() {
+            const isEdit = document.body.classList.toggle("edit-mode");
+            const btn = document.getElementById("btnEditMode");
+            btn.textContent = isEdit ? "편집 중 🔓" : "편집 잠금 🔒";
+            btn.classList.toggle("active", isEdit);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById("btnTheme");
+            if (body.getAttribute("data-theme") === "dark") {
+                body.removeAttribute("data-theme");
+                btn.textContent = "다크모드 🌙";
+                localStorage.setItem("junu_theme_v2", "light");
+            } else {
+                body.setAttribute("data-theme", "dark");
+                btn.textContent = "라이트모드 ☀️";
+                localStorage.setItem("junu_theme_v2", "dark");
+            }
+        }
+
+        window.onload = () => {
+            if (localStorage.getItem("junu_theme_v2") === "dark") {
+                document.body.setAttribute("data-theme", "dark");
+                document.getElementById("btnTheme").textContent = "라이트모드 ☀️";
+            }
+            fetchLinks();
+        };
+    </script>
+</body>
+</html>
