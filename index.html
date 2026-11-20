@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>주누디자인 링크마스터 VIP (대표 전용)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>주누디자인 링크마스터 (대표 & 실장 전용)</title>
     
-    <!-- PWA 모바일 앱 설정 -->
+    <!-- PWA 모바일 앱 설정 (가로/세로 자유 회전 지원) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0B192C">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,30 +18,33 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <style>
         :root {
-            --bg-color: #0f1015;
-            --container-bg: #16181f;
-            --card-bg: rgba(255, 255, 255, 0.04);
+            --bg-color: #0d0e12;
+            --container-bg: #14161d;
+            --card-bg: #1a1d26;
             --card-border: rgba(255, 255, 255, 0.08);
-            --text-color: #f2f4f8;
-            --text-muted: #8b92a4;
+            --text-color: #f3f5f9;
+            --text-muted: #8e95a5;
             --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
             --accent-gold: #D4AF37;
             --accent-blue: #007aff;
-            --button-shadow: rgba(0, 0, 0, 0.35);
-            --border-color: #272a34;
+            --button-shadow: rgba(0, 0, 0, 0.4);
+            --border-color: #242733;
             --input-focus: rgba(212, 175, 55, 0.4);
+            --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 16px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
         }
 
         [data-theme="light"] {
-            --bg-color: #f4f6fa;
+            --bg-color: #f2f4f8;
             --container-bg: #ffffff;
             --card-bg: #ffffff;
-            --card-border: #e2e6ef;
+            --card-border: #e1e5ee;
             --text-color: #1a1c22;
             --text-muted: #6b7280;
             --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
-            --button-shadow: rgba(0, 0, 0, 0.08);
+            --button-shadow: rgba(0, 0, 0, 0.06);
             --border-color: #e5e8f0;
             --input-focus: rgba(0, 122, 255, 0.3);
         }
@@ -55,125 +58,123 @@
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.25s ease, color 0.25s ease;
             margin: 0;
-            padding: 12px;
-            padding-bottom: calc(var(--safe-bottom) + 24px);
+            padding: 0;
+            padding-top: calc(var(--safe-top) + 8px);
+            padding-bottom: calc(var(--safe-bottom) + 20px);
+            padding-left: calc(var(--safe-left) + 10px);
+            padding-right: calc(var(--safe-right) + 10px);
             min-height: 100dvh;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         .container {
-            max-width: 900px;
+            width: 100%;
+            max-width: 1080px;
             margin: 0 auto;
-            background-color: var(--container-bg);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px var(--button-shadow);
-            border: 1px solid var(--border-color);
         }
 
+        /* 📱 스마트폰 헤더 */
         .header-banner {
             background: var(--primary-gradient);
             color: white;
-            padding: 18px 20px;
+            padding: 14px 16px;
             border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            margin-bottom: 18px;
-            box-shadow: 0 8px 24px rgba(11, 25, 44, 0.4);
+            margin-bottom: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
         }
 
         .header-title-box {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
 
         .header-banner h2 {
             margin: 0;
-            font-size: 1.35rem;
+            font-size: 1.22rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.4px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .vip-badge {
             background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 100%);
             color: #121214;
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             font-weight: 900;
-            padding: 2px 8px;
-            border-radius: 20px;
+            padding: 2px 7px;
+            border-radius: 12px;
             letter-spacing: 0.5px;
-            text-shadow: none;
         }
 
         .header-subtitle {
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.8);
             margin: 0;
+            font-weight: 500;
         }
 
         .header-actions {
             display: flex;
             gap: 6px;
-            flex-wrap: wrap;
+            align-items: center;
         }
 
         .header-btn {
-            background-color: rgba(255, 255, 255, 0.12);
+            background-color: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(8px);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 7px 12px;
-            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 7px 11px;
+            border-radius: 14px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.82rem;
-            transition: all 0.2s;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.15s;
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
 
         .header-btn:active {
-            transform: scale(0.96);
-            background-color: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         .header-btn.install-btn {
             background: linear-gradient(135deg, #D4AF37 0%, #AA8010 100%);
             color: #121214;
-            font-weight: 800;
+            font-weight: 900;
             border: none;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4);
         }
 
+        /* 🔍 검색창 & 툴바 */
         .toolbar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
         }
 
         .search-box {
             position: relative;
-            flex: 1;
+            width: 100%;
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 16px;
-            padding-right: 38px;
+            padding: 11px 14px;
+            padding-right: 36px;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 0.95rem;
             font-family: inherit;
             background-color: var(--card-bg);
@@ -181,6 +182,7 @@
             box-sizing: border-box;
             outline: none;
             transition: border-color 0.2s;
+            box-shadow: 0 2px 8px var(--button-shadow);
         }
 
         .search-input:focus {
@@ -199,29 +201,33 @@
             font-size: 16px;
             cursor: pointer;
             display: none;
+            padding: 4px;
         }
 
+        /* 🏷️ 카테고리 칩 스크롤 */
         .category-nav {
             display: flex;
             gap: 6px;
             overflow-x: auto;
             padding-bottom: 8px;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
         .category-nav::-webkit-scrollbar { display: none; }
 
         .cat-chip {
-            padding: 6px 12px;
+            padding: 7px 13px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 600;
             white-space: nowrap;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
+            flex-shrink: 0;
         }
 
         .cat-chip.active {
@@ -229,17 +235,20 @@
             color: #121214;
             border-color: var(--accent-gold);
             font-weight: 800;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
         }
 
+        /* ➕ 링크 추가 폼 */
         .add-form {
             display: none;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 16px;
             background-color: var(--card-bg);
-            padding: 16px;
-            border-radius: 14px;
+            padding: 14px;
+            border-radius: 16px;
             border: 1px solid var(--accent-gold);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         body.edit-mode .add-form { display: flex; }
@@ -247,24 +256,19 @@
         .form-row {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap;
         }
 
         .add-form input, .add-form select {
-            padding: 11px 14px;
+            padding: 10px 12px;
             border: 1px solid var(--border-color);
             border-radius: 10px;
             flex: 1;
-            min-width: 140px;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             font-family: inherit;
-            background-color: var(--container-bg);
+            background-color: var(--bg-color);
             color: var(--text-color);
             outline: none;
-        }
-
-        .add-form input:focus, .add-form select:focus {
-            border-color: var(--accent-gold);
+            box-sizing: border-box;
         }
 
         .btn-smart-fill {
@@ -272,8 +276,8 @@
             color: var(--accent-gold);
             border: 1px solid var(--accent-gold);
             border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.85rem;
+            padding: 10px 12px;
+            font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
             white-space: nowrap;
@@ -283,16 +287,17 @@
             background: linear-gradient(135deg, #D4AF37 0%, #AA8010 100%);
             color: #121214;
             border: none;
-            padding: 12px;
+            padding: 11px;
             border-radius: 10px;
             cursor: pointer;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
+        /* 📂 섹션 타이틀 */
         .section-title {
-            font-size: 1.05rem;
-            margin: 18px 0 10px 0;
+            font-size: 0.96rem;
+            margin: 14px 0 8px 2px;
             color: var(--text-color);
             font-weight: 800;
             display: flex;
@@ -300,17 +305,36 @@
             gap: 6px;
         }
 
+        /* 📱 모바일 최적화 버튼 그리드 */
         .button-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
-        @media (max-width: 480px) {
+        /* 🔄 가로 회전 (Landscape) 모드 최적화: 3~4열로 시원하게 확장 */
+        @media (min-width: 600px) or (orientation: landscape) {
+            .header-banner {
+                padding: 10px 16px;
+                margin-bottom: 10px;
+            }
+            .header-banner h2 {
+                font-size: 1.15rem;
+            }
             .button-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 10px;
+            }
+            .link-btn {
+                padding: 12px 32px 12px 12px;
+                min-height: 52px;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .button-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
@@ -325,30 +349,40 @@
             align-items: flex-start;
             justify-content: center;
             text-decoration: none;
-            padding: 14px 34px 14px 14px;
-            border-radius: 14px;
+            padding: 11px 32px 11px 11px;
+            border-radius: 12px;
             font-weight: 700;
-            font-size: 0.94rem;
+            font-size: 0.88rem;
             border: 1px solid var(--card-border);
             background-color: var(--card-bg);
             color: var(--text-color);
-            box-shadow: 0 4px 12px var(--button-shadow);
-            transition: all 0.15s ease;
-            min-height: 60px;
+            box-shadow: 0 2px 6px var(--button-shadow);
+            transition: all 0.12s ease;
+            min-height: 52px;
             word-break: keep-all;
             overflow: hidden;
         }
 
         .link-btn:active {
             transform: scale(0.97);
-            filter: brightness(1.15);
+            filter: brightness(1.2);
+        }
+
+        .link-title {
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.88rem;
+            line-height: 1.25;
         }
 
         .link-url-preview {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: var(--text-muted);
             margin-top: 3px;
-            max-width: 100%;
+            width: 100%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -358,16 +392,16 @@
         .copy-btn {
             position: absolute;
             top: 50%;
-            right: 8px;
+            right: 6px;
             transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.08);
             color: var(--text-muted);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -382,60 +416,59 @@
 
         .delete-btn {
             position: absolute;
-            top: -6px;
-            right: -6px;
+            top: -5px;
+            right: -5px;
             background-color: #ff3b30;
             color: white;
             border: 2px solid var(--container-bg);
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             z-index: 10;
         }
 
         body.edit-mode .delete-btn { display: flex; }
 
-        /* 카테고리별 테마 테두리/포인트 */
-        .cat-top { border-left: 4px solid #D4AF37; }
-        .cat-partner { border-left: 4px solid #34C759; }
-        .cat-design { border-left: 4px solid #AF52DE; }
-        .cat-frequent { border-left: 4px solid #007AFF; }
+        /* 카테고리별 테마 테두리 */
+        .cat-top { border-left: 3.5px solid #D4AF37; }
+        .cat-partner { border-left: 3.5px solid #34C759; }
+        .cat-design { border-left: 3.5px solid #AF52DE; }
+        .cat-frequent { border-left: 3.5px solid #007AFF; }
 
         .loading-spinner {
             text-align: center;
             color: var(--text-muted);
             font-weight: 600;
-            padding: 30px;
-            font-size: 0.9rem;
+            padding: 24px;
+            font-size: 0.85rem;
             grid-column: 1 / -1;
         }
 
-        /* 하단 퀵 모바일 바 */
         .bottom-bar {
-            margin-top: 24px;
-            padding-top: 14px;
+            margin-top: 18px;
+            padding-top: 12px;
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.76rem;
+            font-size: 0.74rem;
             color: var(--text-muted);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- VIP 헤더 -->
+        <!-- 📱 대표 & 실장 헤더 -->
         <div class="header-banner">
             <div class="header-title-box">
                 <h2>👑 주누링크 <span class="vip-badge">VIP</span></h2>
-                <p class="header-subtitle">주누디자인 대표 1인 전용 초고속 모바일 포털</p>
+                <p class="header-subtitle">주누디자인 대표 & 실장 전용 포털</p>
             </div>
             <div class="header-actions">
                 <button id="btnInstall" class="header-btn install-btn" style="display:none;" onclick="installApp()">📲 앱 설치</button>
@@ -444,7 +477,7 @@
             </div>
         </div>
 
-        <!-- 검색창 -->
+        <!-- 🔍 초고속 검색창 -->
         <div class="toolbar">
             <div class="search-box">
                 <input type="text" id="searchInput" class="search-input" placeholder="🔍 링크 이름 또는 주소 검색..." oninput="handleSearch(this.value)">
@@ -452,7 +485,7 @@
             </div>
         </div>
 
-        <!-- 카테고리 필터 칩 -->
+        <!-- 🏷️ 카테고리 필터 칩 (스크롤형) -->
         <div class="category-nav">
             <div class="cat-chip active" onclick="filterCategory('all', this)">전체보기</div>
             <div class="cat-chip" onclick="filterCategory('top', this)">🌟 최상단 즐겨찾기</div>
@@ -461,10 +494,10 @@
             <div class="cat-chip" onclick="filterCategory('frequent', this)">⚡ 마켓·어드민</div>
         </div>
 
-        <!-- 링크 추가 폼 (편집 모드 시) -->
+        <!-- ➕ 링크 추가 폼 (편집 모드 시) -->
         <div class="add-form" id="addForm">
             <div class="form-row">
-                <input type="text" id="inputName" placeholder="버튼 이름 (예: 충무로 성원애드피아)">
+                <input type="text" id="inputName" placeholder="버튼 이름 (예: 성원애드피아)">
                 <select id="inputCategory">
                     <option value="top">🌟 최상단 즐겨찾기</option>
                     <option value="partner">🏭 인쇄·협력업체</option>
@@ -476,10 +509,10 @@
                 <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)" onchange="smartSuggestName(this.value)">
                 <button type="button" class="btn-smart-fill" onclick="smartSuggestName(document.getElementById('inputUrl').value)">🤖 자동완성</button>
             </div>
-            <button id="btnAdd" class="add-btn" onclick="addLink()">대표 VIP 링크 등록 ➕</button>
+            <button id="btnAdd" class="add-btn" onclick="addLink()">링크 등록 ➕</button>
         </div>
 
-        <!-- 4대 카테고리 그리드 -->
+        <!-- 4대 카테고리 섹션 -->
         <div id="section-top" class="cat-section">
             <div class="section-title">🌟 최상단 즐겨찾기</div>
             <div class="button-grid" id="grid-top">
@@ -503,7 +536,7 @@
         </div>
 
         <div class="bottom-bar">
-            <span>주누디자인 대표 전용 • 0ms 로컬 캐싱</span>
+            <span>주누디자인 대표 & 실장 • 가로세로 자동회전</span>
             <span id="linkCount">0개 연결됨</span>
         </div>
     </div>
@@ -522,7 +555,7 @@
             });
         }
 
-        // 갤럭시 PWA 설치 프롬프트 감지
+        // PWA 설치 감지
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -540,7 +573,7 @@
             deferredPrompt = null;
         }
 
-        // 갤럭시 햅틱 진동 피드백
+        // 햅틱 진동 피드백
         function triggerHaptic(duration = 18) {
             if (navigator.vibrate) {
                 try { navigator.vibrate(duration); } catch (_) {}
@@ -571,11 +604,11 @@
                 if (host.includes("swadpia")) { nameInput.value = "성원애드피아"; catSelect.value = "partner"; }
                 else if (host.includes("eprint")) { nameInput.value = "이프린트"; catSelect.value = "partner"; }
                 else if (host.includes("cafe24")) { nameInput.value = "카페24 관리자"; catSelect.value = "frequent"; }
-                else if (host.includes("smartstore")) { nameInput.value = "스마트스토어 센터"; catSelect.value = "frequent"; }
+                else if (host.includes("smartstore")) { nameInput.value = "스마트스토어"; catSelect.value = "frequent"; }
                 else if (host.includes("coupang")) { nameInput.value = "쿠팡 윙"; catSelect.value = "frequent"; }
-                else if (host.includes("esmplus")) { nameInput.value = "ESM Plus (G마켓/옥션)"; catSelect.value = "frequent"; }
+                else if (host.includes("esmplus")) { nameInput.value = "ESM Plus"; catSelect.value = "frequent"; }
                 else if (host.includes("11st")) { nameInput.value = "11번가 셀러오피스"; catSelect.value = "frequent"; }
-                else if (host.includes("freepik")) { nameInput.value = "프리픽 (Freepik)"; catSelect.value = "design"; }
+                else if (host.includes("freepik")) { nameInput.value = "프리픽"; catSelect.value = "design"; }
                 else if (host.includes("flaticon")) { nameInput.value = "플랫아이콘"; catSelect.value = "design"; }
                 else if (!nameInput.value) {
                     nameInput.value = host.replace("www.", "").split(".")[0].toUpperCase();
@@ -585,7 +618,7 @@
         }
 
         async function fetchLinks() {
-            // 로컬 스토리지에 캐시된 데이터가 있으면 0ms 즉시 렌더링
+            // 캐시 데이터로 즉시 0ms 렌더링
             const cached = localStorage.getItem("joonoo_links_cache");
             if (cached) {
                 try {
@@ -605,7 +638,7 @@
                 }
             } catch (error) {
                 if (!links.length) {
-                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결에 실패했습니다. 새로고침을 눌러주세요.</div>";
+                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결에 실패했습니다. 새로고침을 해주세요.</div>";
                 }
             }
         }
@@ -646,9 +679,10 @@
                 anchor.target = "_blank";
                 anchor.rel = "noopener noreferrer";
                 anchor.className = `link-btn cat-${cat}`;
-                anchor.addEventListener("click", () => triggerHaptic(20));
+                anchor.addEventListener("click", () => triggerHaptic(18));
 
                 const titleSpan = document.createElement("span");
+                titleSpan.className = "link-title";
                 titleSpan.textContent = nameStr;
                 anchor.appendChild(titleSpan);
 
@@ -669,7 +703,7 @@
                 copyBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    triggerHaptic(30);
+                    triggerHaptic(25);
                     try {
                         await navigator.clipboard.writeText(safeUrl);
                         copyBtn.textContent = "✓";
@@ -700,7 +734,6 @@
                 grid.appendChild(wrapper);
             });
 
-            // 빈 섹션 숨김 처리 (필터 적용 시)
             VALID_CATEGORIES.forEach(cat => {
                 const sec = document.getElementById(`section-${cat}`);
                 const grid = document.getElementById(`grid-${cat}`);
@@ -776,14 +809,14 @@
             } catch (error) {
                 alert("추가 중 오류가 발생했습니다.");
             } finally {
-                btnAdd.textContent = "대표 VIP 링크 등록 ➕";
+                btnAdd.textContent = "링크 등록 ➕";
                 btnAdd.disabled = false;
             }
         }
 
         async function deleteLink(id) {
             if (!confirm("이 링크를 삭제하시겠습니까?")) return;
-            triggerHaptic(40);
+            triggerHaptic(35);
             try {
                 const res = await fetch(SCRIPT_URL, {
                     method: "POST",
@@ -801,7 +834,7 @@
         }
 
         function toggleEditMode() {
-            triggerHaptic(20);
+            triggerHaptic(18);
             const isEdit = document.body.classList.toggle("edit-mode");
             const btn = document.getElementById("btnEditMode");
             btn.textContent = isEdit ? "완료 🔓" : "편집 🔒";
