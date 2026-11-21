@@ -1325,14 +1325,15 @@
                     const shareBtn = document.createElement("button");
                     shareBtn.type = "button";
                     shareBtn.className = "icon-action-btn share-btn";
-                    shareBtn.title = "카톡/문자 공유";
+                    shareBtn.title = "카톡 / 문자 공유";
                     shareBtn.textContent = "📤";
                     shareBtn.addEventListener("click", async (e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         triggerHaptic(22);
                         try {
-                            await navigator.share({ title: nameStr, text: nameStr, url: safeUrl });
+                            const fullMsg = `[${nameStr}]\n${safeUrl}`;
+                            await navigator.share({ title: nameStr, text: fullMsg, url: safeUrl });
                         } catch (_) {}
                     });
                     actions.appendChild(shareBtn);
