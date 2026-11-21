@@ -1,10 +1,10 @@
 {
-  "name": "주누디자인 링크마스터 (대표 & 실장 전용)",
+  "name": "주누디자인 링크마스터",
   "short_name": "주누링크",
   "description": "주누디자인 대표 & 실장 전용 초고속 모바일 링크 포털",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0d0e12",
+  "background_color": "#0b0d13",
   "theme_color": "#0B192C",
   "icons": [
     {

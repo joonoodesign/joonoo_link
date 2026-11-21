@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-fontsize="large" data-cols="1">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, viewport-fit=cover">
-    <title>주누디자인 링크마스터 (대표 & 실장 전용)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>주누디자인 링크마스터</title>
     
-    <!-- PWA 모바일 설정 (가로/세로 자동회전 지원) -->
-    <link rel="manifest" href="manifest.json?v=20261121_09">
+    <!-- PWA 모바일 앱 설정 -->
+    <link rel="manifest" href="manifest.json?v=1000">
     <meta name="theme-color" content="#0B192C">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,41 +17,103 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <style>
+        /* =========================================================
+           1. 색상 테마 (WCAG AAA 고대비 가독성 표준)
+           ========================================================= */
         :root {
-            --bg-color: #0a0b0e;
-            --container-bg: #12141c;
-            --card-bg: #1a1d28;
-            --card-border: rgba(255, 255, 255, 0.2);
+            --bg-color: #0b0d13;
+            --surface-bg: #151924;
+            --card-bg: #1b202e;
+            --card-border: rgba(255, 255, 255, 0.18);
             --text-color: #ffffff;
-            --text-muted: #b0b7c7;
+            --text-sub: #d0d7e6;
+            --text-muted: #9aa4b8;
+            --chip-bg: #1f2536;
+            --chip-text: #eef2f9;
             --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
             --accent-gold: #FFD700;
-            --accent-blue: #0A84FF;
-            --button-shadow: rgba(0, 0, 0, 0.55);
-            --border-color: #363b4e;
-            --input-focus: rgba(255, 215, 0, 0.5);
+            --accent-gold-bg: linear-gradient(135deg, #FFD700 0%, #F5B700 100%);
+            --shadow: rgba(0, 0, 0, 0.45);
+            --border-color: #32394e;
             --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 24px);
+            --safe-bottom: env(safe-area-inset-bottom, 16px);
             --safe-left: env(safe-area-inset-left, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
         }
 
         [data-theme="light"] {
             --bg-color: #eef2f7;
-            --container-bg: #ffffff;
+            --surface-bg: #ffffff;
             --card-bg: #ffffff;
-            --card-border: #cbd3e1;
-            --text-color: #0f1115;
-            --text-muted: #4b5262;
+            --card-border: #c5cede;
+            --text-color: #0d1017;
+            --text-sub: #2c3344;
+            --text-muted: #555f75;
+            --chip-bg: #ffffff;
+            --chip-text: #1c2230;
             --primary-gradient: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
-            --button-shadow: rgba(0, 0, 0, 0.12);
-            --border-color: #d2d8e6;
-            --input-focus: rgba(0, 122, 255, 0.4);
+            --accent-gold: #0B192C;
+            --accent-gold-bg: linear-gradient(135deg, #FFD700 0%, #F5B700 100%);
+            --shadow: rgba(11, 25, 44, 0.08);
+            --border-color: #cfd7e6;
         }
 
-        * {
+        /* =========================================================
+           2. 3단계 글자 크기 스케일 (보통 / 크게[기본] / 특대)
+           ========================================================= */
+        html[data-fontsize="normal"] {
+            --fs-header: 20px;
+            --fs-sub: 14px;
+            --fs-hbtn: 15px;
+            --fs-search: 18px;
+            --fs-chip: 17px;
+            --fs-section: 19px;
+            --fs-card: 19px;
+            --fs-domain: 13px;
+            --h-search: 50px;
+            --h-card: 66px;
+        }
+
+        html[data-fontsize="large"] {
+            --fs-header: 23px;
+            --fs-sub: 15px;
+            --fs-hbtn: 16px;
+            --fs-search: 20px;
+            --fs-chip: 19px;
+            --fs-section: 22px;
+            --fs-card: 22px;
+            --fs-domain: 14px;
+            --h-search: 56px;
+            --h-card: 74px;
+        }
+
+        html[data-fontsize="xlarge"] {
+            --fs-header: 25px;
+            --fs-sub: 16px;
+            --fs-hbtn: 17px;
+            --fs-search: 23px;
+            --fs-chip: 21px;
+            --fs-section: 24px;
+            --fs-card: 26px;
+            --fs-domain: 16px;
+            --h-search: 62px;
+            --h-card: 84px;
+        }
+
+        /* =========================================================
+           3. 가로폭 초과(자동 축소 버그) 100% 원천 차단
+           ========================================================= */
+        *, *::before, *::after {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         body {
@@ -59,9 +121,11 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
             padding-top: calc(var(--safe-top) + 10px);
-            padding-bottom: calc(var(--safe-bottom) + 36px);
+            padding-bottom: calc(var(--safe-bottom) + 32px);
             padding-left: calc(var(--safe-left) + 12px);
             padding-right: calc(var(--safe-right) + 12px);
             min-height: 100dvh;
@@ -70,101 +134,117 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1120px;
             margin: 0 auto;
         }
 
-        /* 👑 1. 상단 주누링크 행 (특대형 28px) */
+        /* =========================================================
+           4. 상단 헤더 (320px 소형 화면에서도 절대 안 깨짐)
+           ========================================================= */
+        .top-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
         .header-banner {
             background: var(--primary-gradient);
-            color: white;
-            padding: 16px 20px;
-            border-radius: 20px;
+            color: #ffffff;
+            padding: 14px 16px;
+            border-radius: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-            border: 2px solid rgba(255, 215, 0, 0.5);
+            gap: 8px;
+            box-shadow: 0 6px 20px var(--shadow);
+            border: 1.5px solid rgba(255, 215, 0, 0.45);
+            width: 100%;
         }
 
         .header-title-box {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            min-width: 0;
+            flex: 1;
         }
 
-        .header-banner h2 {
+        .header-banner h1 {
             margin: 0;
-            font-size: 28px !important;
-            font-weight: 900 !important;
+            font-size: var(--fs-header);
+            font-weight: 900;
             letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             line-height: 1.2;
-        }
-
-        .vip-badge {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #000000;
-            font-size: 15px !important;
-            font-weight: 900 !important;
-            padding: 4px 10px;
-            border-radius: 12px;
-            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .header-subtitle {
-            font-size: 17px !important;
-            color: rgba(255, 255, 255, 0.95) !important;
-            margin: 0;
-            font-weight: 700 !important;
-            line-height: 1.3;
+            margin: 3px 0 0 0;
+            font-size: var(--fs-sub);
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .header-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
             align-items: center;
-            flex-wrap: wrap;
         }
 
         .header-btn {
-            background-color: rgba(255, 255, 255, 0.22);
-            backdrop-filter: blur(8px);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 10px 16px;
-            border-radius: 14px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1.5px solid rgba(255, 255, 255, 0.38);
+            padding: 9px 12px;
+            border-radius: 13px;
             cursor: pointer;
+            font-family: inherit;
             font-weight: 800;
-            font-size: 17px !important;
-            transition: all 0.15s;
+            font-size: var(--fs-hbtn);
+            line-height: 1;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
+            white-space: nowrap;
         }
 
         .header-btn:active {
             transform: scale(0.95);
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.35);
         }
 
-        .header-btn.install-btn {
-            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+        .header-btn.active-mode {
+            background: var(--accent-gold-bg);
             color: #000000;
-            font-weight: 900;
+            border-color: #FFD700;
+        }
+
+        /* 앱 설치 유도 배너 (미설치 시에만 표시) */
+        .install-banner {
+            display: none;
+            width: 100%;
+            background: var(--accent-gold-bg);
+            color: #000000;
             border: none;
-            box-shadow: 0 4px 14px rgba(255, 215, 0, 0.5);
+            border-radius: 14px;
+            padding: 13px 16px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(255, 215, 0, 0.35);
         }
 
-        /* 🔍 2. 링크이름검색 입력창 (특대형 22px + 높이 60px) */
-        .toolbar {
-            margin-bottom: 12px;
-        }
-
+        /* =========================================================
+           5. 검색창 (초성 검색 지원 & 고대비 선명한 글씨)
+           ========================================================= */
         .search-box {
             position: relative;
             width: 100%;
@@ -172,222 +252,310 @@
 
         .search-input {
             width: 100%;
-            height: 60px;
-            padding: 0 20px;
-            padding-right: 56px;
-            border: 2.5px solid var(--border-color);
-            border-radius: 18px;
-            font-size: 22px !important;
-            font-weight: 800 !important;
+            height: var(--h-search);
+            padding: 0 48px 0 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            font-size: var(--fs-search);
+            font-weight: 800;
             font-family: inherit;
             background-color: var(--card-bg);
             color: var(--text-color);
-            box-sizing: border-box;
             outline: none;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px var(--button-shadow);
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 3px 10px var(--shadow);
         }
 
         .search-input::placeholder {
-            color: var(--text-muted);
-            font-size: 20px !important;
+            color: var(--text-sub);
+            opacity: 0.85;
             font-weight: 700;
         }
 
         .search-input:focus {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 0 4px var(--input-focus);
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.35);
         }
 
         .search-clear {
             position: absolute;
-            right: 14px;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(150, 160, 180, 0.28);
             border: none;
             color: var(--text-color);
-            font-size: 22px;
+            font-size: 18px;
+            font-weight: 900;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
         }
 
-        /* 🏷️ 3. 전체보기 및 카테고리 칩 (특대형 20px + 시원한 패딩) */
+        /* =========================================================
+           6. 카테고리 칩 (비선택 상태도 선명한 고대비 텍스트)
+           ========================================================= */
         .category-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
             overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 14px;
+            padding: 2px 0 10px 0;
+            margin-bottom: 8px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
         .category-nav::-webkit-scrollbar { display: none; }
 
         .cat-chip {
-            padding: 13px 20px !important;
-            border-radius: 28px;
-            font-size: 20px !important;
-            font-weight: 800 !important;
+            padding: 11px 17px;
+            border-radius: 24px;
+            font-family: inherit;
+            font-size: var(--fs-chip);
+            font-weight: 800;
             white-space: nowrap;
-            background-color: var(--card-bg);
+            background-color: var(--chip-bg);
             border: 2px solid var(--border-color);
-            color: var(--text-muted);
+            color: var(--chip-text);
             cursor: pointer;
-            transition: all 0.15s;
             flex-shrink: 0;
             line-height: 1.2;
         }
 
         .cat-chip.active {
-            background-color: var(--accent-gold);
+            background: var(--accent-gold-bg);
             color: #000000;
-            border-color: var(--accent-gold);
-            font-weight: 900 !important;
-            box-shadow: 0 4px 14px rgba(255, 215, 0, 0.5);
+            border-color: #FFD700;
+            font-weight: 900;
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.35);
         }
 
-        /* ➕ 링크 추가 폼 */
+        /* =========================================================
+           7. 편집 모드 추가 폼
+           ========================================================= */
+        .edit-notice {
+            display: none;
+            background: rgba(255, 215, 0, 0.15);
+            border: 1.5px solid #FFD700;
+            color: var(--text-color);
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        body.edit-mode .edit-notice { display: flex; }
+
+        .edit-done-btn {
+            background: var(--accent-gold-bg);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
         .add-form {
             display: none;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 22px;
+            gap: 10px;
+            margin-bottom: 18px;
             background-color: var(--card-bg);
-            padding: 18px;
-            border-radius: 20px;
-            border: 2px solid var(--accent-gold);
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
+            padding: 16px;
+            border-radius: 18px;
+            border: 2px solid #FFD700;
+            box-shadow: 0 6px 20px var(--shadow);
         }
 
         body.edit-mode .add-form { display: flex; }
 
         .form-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .add-form input, .add-form select {
-            padding: 14px 18px;
+            padding: 13px 14px;
             border: 2px solid var(--border-color);
-            border-radius: 14px;
+            border-radius: 12px;
             flex: 1;
-            min-width: 180px;
-            font-size: 20px !important;
+            min-width: 0;
+            width: 100%;
+            font-size: 18px;
             font-weight: 700;
             font-family: inherit;
             background-color: var(--bg-color);
             color: var(--text-color);
             outline: none;
-            box-sizing: border-box;
         }
 
         .btn-smart-fill {
             background-color: rgba(255, 215, 0, 0.2);
-            color: var(--accent-gold);
-            border: 2px solid var(--accent-gold);
-            border-radius: 14px;
-            padding: 14px 20px;
-            font-size: 19px !important;
+            color: var(--text-color);
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 17px;
             font-weight: 900;
             cursor: pointer;
             white-space: nowrap;
         }
 
         .add-btn {
-            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            background: var(--accent-gold-bg);
             color: #000000;
             border: none;
-            padding: 16px;
-            border-radius: 16px;
+            padding: 15px;
+            border-radius: 14px;
             cursor: pointer;
+            font-family: inherit;
             font-weight: 900;
-            font-size: 22px !important;
+            font-size: 20px;
         }
 
-        /* 📂 섹션 타이틀 (특대형 23px) */
+        /* =========================================================
+           8. 링크 카드 그리드 (세로 1열/2열 선택 + 가로/PC 자동 다단)
+           ========================================================= */
         .section-title {
-            font-size: 23px !important;
-            margin: 22px 0 12px 4px;
+            font-size: var(--fs-section);
+            margin: 18px 0 10px 2px;
             color: var(--text-color);
-            font-weight: 900 !important;
+            font-weight: 900;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        /* 📱 버튼 그리드 */
         .button-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 18px;
+            width: 100%;
         }
 
-        @media (min-width: 440px) {
-            .button-grid {
-                grid-template-columns: repeat(2, 1fr);
+        /* 사용자가 '2열 보기'를 선택한 경우 */
+        html[data-cols="2"] .button-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        /* 태블릿 / 넓은 화면 자동 다단 */
+        @media (min-width: 680px) {
+            .button-grid,
+            html[data-cols="2"] .button-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 12px;
             }
         }
 
-        /* 🔄 가로 회전 (Landscape) 모드: 넓은 화면에 3~4열로 쾌적하게 펼쳐짐 */
-        @media screen and (orientation: landscape) {
-            .button-grid {
-                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
-                gap: 14px !important;
+        /* 사무실 PC 모니터 접속 시 깔끔한 3~4열 포털 */
+        @media (min-width: 960px) {
+            html[data-fontsize="large"] {
+                --fs-card: 19px;
+                --h-card: 66px;
             }
-            .link-btn {
-                padding: 18px 52px 18px 18px !important;
-                min-height: 80px !important;
+            .button-grid,
+            html[data-cols="2"] .button-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 12px;
             }
+        }
+
+        /* 스마트폰 가로 회전(Landscape) 또는 강제 가로보기 모드: 상단 슬림화 + 다단 확장 */
+        @media screen and (orientation: landscape) and (max-height: 560px) {
+            .top-area {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 8px;
+            }
+            .header-banner {
+                flex: 0 0 auto;
+                width: auto;
+                padding: 10px 14px;
+            }
+            .header-subtitle {
+                display: none;
+            }
+            .search-box {
+                flex: 1;
+            }
+            .search-input {
+                height: 48px;
+            }
+            .button-grid,
+            html[data-cols="2"] .button-grid {
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 10px;
+            }
+        }
+
+        /* 강제 가로형 레이아웃 폴백 클래스 (iOS 등 물리 회전 미지원 기기 배려) */
+        body.wide-grid-mode .button-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
         }
 
         .link-wrapper {
             position: relative;
-            display: block;
+            min-width: 0;
+            width: 100%;
         }
 
-        /* 🔲 링크 카드: 돋보기 없이도 팍 띄는 대형 활자 */
-        .link-btn {
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            background-color: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            min-height: var(--h-card);
+            padding: 12px 12px 12px 16px;
+            box-shadow: 0 3px 10px var(--shadow);
+            width: 100%;
+            min-width: 0;
+        }
+
+        .link-anchor {
+            flex: 1;
+            min-width: 0;
+            text-decoration: none;
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
             justify-content: center;
-            text-decoration: none;
-            padding: 18px 52px 18px 18px;
-            border-radius: 18px;
-            border: 2px solid var(--card-border);
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            box-shadow: 0 4px 14px var(--button-shadow);
-            transition: all 0.12s ease;
-            min-height: 76px;
-            word-break: keep-all;
-            overflow: hidden;
+            padding: 2px 0;
         }
 
-        .link-btn:active {
-            transform: scale(0.97);
-            filter: brightness(1.25);
-            border-color: var(--accent-gold);
+        .link-card:active {
+            transform: scale(0.985);
+            border-color: #FFD700;
         }
 
-        /* ⭐ 상호명 특대형 폰트 (24px 볼드) */
         .link-title {
-            display: block;
-            width: 100%;
-            font-size: 24px !important;
-            font-weight: 900 !important;
-            line-height: 1.35;
-            letter-spacing: -0.4px;
-            white-space: normal;
+            font-size: var(--fs-card);
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: -0.3px;
+            word-break: keep-all;
+            overflow-wrap: anywhere;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -395,49 +563,72 @@
         }
 
         .link-url-preview {
-            font-size: 15px !important;
+            font-size: var(--fs-domain);
             color: var(--text-muted);
-            margin-top: 5px;
-            width: 100%;
+            margin-top: 3px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-weight: 600;
         }
 
-        /* 📋 큼직한 복사 버튼 */
-        .copy-btn {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.16);
-            color: var(--text-muted);
-            border: 2px solid rgba(255, 255, 255, 0.25);
-            border-radius: 12px;
-            width: 42px;
-            height: 42px;
+        .card-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            align-items: center;
+        }
+
+        .icon-action-btn {
+            background: rgba(150, 160, 185, 0.16);
+            color: var(--text-sub);
+            border: 1.5px solid var(--border-color);
+            border-radius: 11px;
+            width: 40px;
+            height: 40px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 17px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
+            padding: 0;
         }
 
-        .copy-btn:active {
-            transform: translateY(-50%) scale(0.9);
-            background: var(--accent-gold);
+        .icon-action-btn:active {
+            transform: scale(0.9);
+            background: #FFD700;
             color: #000000;
+        }
+
+        /* 좁은 세로 2열 모드에서는 공유 버튼을 숨겨 글자 영역 확보 */
+        @media (max-width: 679px) {
+            html[data-cols="2"] .share-btn,
+            body.wide-grid-mode .share-btn {
+                display: none;
+            }
+            html[data-cols="2"] .link-card,
+            body.wide-grid-mode .link-card {
+                padding: 10px 8px 10px 12px;
+            }
+            html[data-cols="2"] .link-title,
+            body.wide-grid-mode .link-title {
+                font-size: calc(var(--fs-card) - 3px);
+            }
+            html[data-cols="2"] .icon-action-btn,
+            body.wide-grid-mode .icon-action-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 15px;
+            }
         }
 
         .delete-btn {
             position: absolute;
             top: -8px;
-            right: -8px;
+            right: -6px;
             background-color: #ff3b30;
-            color: white;
-            border: 2px solid var(--container-bg);
+            color: #ffffff;
+            border: 2px solid var(--bg-color);
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -447,84 +638,232 @@
             justify-content: center;
             font-weight: 900;
             font-size: 16px;
-            z-index: 10;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(255, 59, 48, 0.5);
         }
 
         body.edit-mode .delete-btn { display: flex; }
 
-        /* 카테고리별 테마 테두리 (6px 두께로 선명) */
-        .cat-top { border-left: 6px solid #FFD700 !important; }
-        .cat-partner { border-left: 6px solid #34C759 !important; }
-        .cat-design { border-left: 6px solid #AF52DE !important; }
-        .cat-frequent { border-left: 6px solid #0A84FF !important; }
+        /* 카테고리별 좌측 컬러 포인트 바 */
+        .cat-top { border-left: 6px solid #FFD700; }
+        .cat-partner { border-left: 6px solid #34C759; }
+        .cat-design { border-left: 6px solid #AF52DE; }
+        .cat-frequent { border-left: 6px solid #0A84FF; }
 
         .loading-spinner {
             text-align: center;
-            color: var(--text-muted);
+            color: var(--text-sub);
             font-weight: 800;
-            padding: 36px;
-            font-size: 22px !important;
+            padding: 36px 16px;
+            font-size: 20px;
             grid-column: 1 / -1;
         }
 
+        /* =========================================================
+           9. 하단 바 (줄바꿈 허용으로 폭 초과 0%)
+           ========================================================= */
         .bottom-bar {
-            margin-top: 28px;
-            padding-top: 16px;
-            border-top: 2px solid var(--border-color);
+            margin-top: 24px;
+            padding-top: 14px;
+            border-top: 1.5px solid var(--border-color);
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            font-size: 16px !important;
+            gap: 8px;
+            font-size: 15px;
             color: var(--text-muted);
             font-weight: 700;
         }
 
-        /* 🔄 강제 새로고침 플로팅 안내 */
-        .force-reload-btn {
-            background-color: rgba(255, 215, 0, 0.15);
-            color: var(--accent-gold);
-            border: 1.5px solid var(--accent-gold);
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 14px;
+        /* =========================================================
+           10. ⚙️ 화면설정 바텀시트 모달 (큼직한 버튼)
+           ========================================================= */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(3px);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            padding: 12px;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .settings-sheet {
+            width: 100%;
+            max-width: 520px;
+            background: var(--surface-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 20px;
+            padding-bottom: calc(var(--safe-bottom) + 16px);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+            max-height: 90dvh;
+            overflow-y: auto;
+        }
+
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .sheet-header h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .sheet-close {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-family: inherit;
+            font-size: 17px;
             font-weight: 800;
             cursor: pointer;
+        }
+
+        .setting-group {
+            margin-bottom: 16px;
+        }
+
+        .setting-label {
+            display: block;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+        }
+
+        .segmented-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 8px;
+        }
+
+        .seg-btn {
+            padding: 13px 10px;
+            border-radius: 14px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .seg-btn.selected {
+            background: var(--accent-gold-bg);
+            color: #000000;
+            border-color: #FFD700;
+            font-weight: 900;
+        }
+
+        .full-action-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .full-action-btn.gold-outline {
+            border-color: #FFD700;
+        }
+
+        /* =========================================================
+           11. 황금색 토스트 알림창
+           ========================================================= */
+        .toast {
+            position: fixed;
+            bottom: calc(var(--safe-bottom) + 24px);
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #FFD700;
+            color: #000000;
+            padding: 13px 22px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 900;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 2000;
+            max-width: calc(100vw - 32px);
+            text-align: center;
+            word-break: keep-all;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 👑 1. 상단 주누링크 행 -->
-        <div class="header-banner">
-            <div class="header-title-box">
-                <h2>👑 주누링크 <span class="vip-badge">VIP</span></h2>
-                <p class="header-subtitle">주누디자인 대표 & 실장 전용</p>
-            </div>
-            <div class="header-actions">
-                <button id="btnInstall" class="header-btn install-btn" style="display:none;" onclick="installApp()">📲 앱 설치</button>
-                <button id="btnEditMode" class="header-btn" onclick="toggleEditMode()">편집 🔒</button>
-                <button id="btnTheme" class="header-btn" onclick="toggleTheme()">☀️</button>
-            </div>
-        </div>
+        <!-- 상단 헤더 & 검색 영역 (가로모드 시 자동 1줄 결합) -->
+        <div class="top-area">
+            <header class="header-banner">
+                <div class="header-title-box">
+                    <h1>👑 주누링크</h1>
+                    <p class="header-subtitle">대표 & 실장 전용 포털</p>
+                </div>
+                <div class="header-actions">
+                    <button type="button" id="btnRotate" class="header-btn" onclick="toggleLandscape()">🔄 가로</button>
+                    <button type="button" id="btnSettings" class="header-btn" onclick="openSettings()">⚙️ 설정</button>
+                </div>
+            </header>
 
-        <!-- 🔍 2. 링크이름검색 입력창 -->
-        <div class="toolbar">
+            <button type="button" id="btnInstall" class="install-banner" onclick="installApp()">
+                📲 바탕화면에 주누링크 앱 설치하기
+            </button>
+
             <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="🔍 링크 이름 검색..." oninput="handleSearch(this.value)">
-                <button id="searchClear" class="search-clear" onclick="clearSearch()">✕</button>
+                <input type="search" id="searchInput" class="search-input" placeholder="🔍 이름·초성 검색 (예: ㄱㄱ, ㅋㅍ)" oninput="handleSearch(this.value)" autocomplete="off">
+                <button type="button" id="searchClear" class="search-clear" onclick="clearSearch()" aria-label="검색어 지우기">✕</button>
             </div>
         </div>
 
-        <!-- 🏷️ 3. 전체보기 및 카테고리 칩 -->
-        <div class="category-nav">
-            <div class="cat-chip active" onclick="filterCategory('all', this)">전체보기</div>
-            <div class="cat-chip" onclick="filterCategory('top', this)">🌟 최상단 즐겨찾기</div>
-            <div class="cat-chip" onclick="filterCategory('partner', this)">🏭 인쇄·협력업체</div>
-            <div class="cat-chip" onclick="filterCategory('design', this)">🎨 디자인·AI소스</div>
-            <div class="cat-chip" onclick="filterCategory('frequent', this)">⚡ 마켓·어드민</div>
+        <!-- 카테고리 칩 -->
+        <nav class="category-nav" aria-label="카테고리 선택">
+            <button type="button" class="cat-chip active" onclick="filterCategory('all', this)">전체보기</button>
+            <button type="button" class="cat-chip" onclick="filterCategory('top', this)">🌟 즐겨찾기</button>
+            <button type="button" class="cat-chip" onclick="filterCategory('partner', this)">🏭 협력업체</button>
+            <button type="button" class="cat-chip" onclick="filterCategory('design', this)">🎨 디자인·AI</button>
+            <button type="button" class="cat-chip" onclick="filterCategory('frequent', this)">⚡ 마켓·어드민</button>
+        </nav>
+
+        <!-- 편집 모드 안내 바 & 새 링크 추가 폼 -->
+        <div class="edit-notice">
+            <span>🔓 편집 모드 (추가 및 × 삭제 가능)</span>
+            <button type="button" class="edit-done-btn" onclick="toggleEditMode(false)">편집 완료</button>
         </div>
 
-        <!-- ➕ 링크 추가 폼 -->
         <div class="add-form" id="addForm">
             <div class="form-row">
                 <input type="text" id="inputName" placeholder="버튼 이름 (예: 성원애드피아)">
@@ -537,91 +876,332 @@
             </div>
             <div class="form-row">
                 <input type="url" id="inputUrl" placeholder="링크 주소 (https://...)" onchange="smartSuggestName(this.value)">
-                <button type="button" class="btn-smart-fill" onclick="smartSuggestName(document.getElementById('inputUrl').value)">🤖 자동완성</button>
+                <button type="button" class="btn-smart-fill" onclick="smartSuggestName(document.getElementById('inputUrl').value)">🤖 이름자동</button>
             </div>
-            <button id="btnAdd" class="add-btn" onclick="addLink()">새 링크 등록 ➕</button>
+            <button type="button" id="btnAdd" class="add-btn" onclick="addLink()">새 링크 등록하기 ➕</button>
         </div>
 
-        <!-- 4대 카테고리 목록 -->
-        <div id="section-top" class="cat-section">
-            <div class="section-title">🌟 최상단 즐겨찾기</div>
+        <!-- 4대 카테고리 섹션 -->
+        <section id="section-top" class="cat-section">
+            <h2 class="section-title">🌟 최상단 즐겨찾기</h2>
             <div class="button-grid" id="grid-top">
                 <div class="loading-spinner">링크를 불러오는 중입니다...</div>
             </div>
-        </div>
+        </section>
 
-        <div id="section-partner" class="cat-section">
-            <div class="section-title">🏭 인쇄·협력업체</div>
+        <section id="section-partner" class="cat-section">
+            <h2 class="section-title">🏭 인쇄·협력업체</h2>
             <div class="button-grid" id="grid-partner"></div>
-        </div>
+        </section>
 
-        <div id="section-design" class="cat-section">
-            <div class="section-title">🎨 디자인·AI소스</div>
+        <section id="section-design" class="cat-section">
+            <h2 class="section-title">🎨 디자인·AI소스</h2>
             <div class="button-grid" id="grid-design"></div>
-        </div>
+        </section>
 
-        <div id="section-frequent" class="cat-section">
-            <div class="section-title">⚡ 마켓·어드민 & 기타</div>
+        <section id="section-frequent" class="cat-section">
+            <h2 class="section-title">⚡ 마켓·어드민 & 기타</h2>
             <div class="button-grid" id="grid-frequent"></div>
-        </div>
+        </section>
 
-        <div class="bottom-bar">
-            <span>주누디자인 대표 & 실장 • 가로세로 자동회전</span>
-            <button class="force-reload-btn" onclick="forceCleanReload()">🔄 최신화면 갱신</button>
-            <span id="linkCount">0개 연결됨</span>
+        <footer class="bottom-bar">
+            <span>👑 주누디자인 대표 & 실장 전용</span>
+            <span id="linkCount">불러오는 중...</span>
+        </footer>
+    </div>
+
+    <!-- ⚙️ 화면설정 바텀 시트 -->
+    <div id="settingsModal" class="modal-backdrop" onclick="handleBackdropClick(event)">
+        <div class="settings-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+            <div class="sheet-header">
+                <h3 id="sheetTitle">⚙️ 내 눈에 맞춘 화면 설정</h3>
+                <button type="button" class="sheet-close" onclick="closeSettings()">닫기 ✕</button>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">1. 글씨 크기 선택</span>
+                <div class="segmented-row">
+                    <button type="button" class="seg-btn" data-fs-opt="normal" onclick="setFontSize('normal')">보통</button>
+                    <button type="button" class="seg-btn selected" data-fs-opt="large" onclick="setFontSize('large')">크게 (기본)</button>
+                    <button type="button" class="seg-btn" data-fs-opt="xlarge" onclick="setFontSize('xlarge')">특대 (돋보기)</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">2. 세로 화면 카드 배치</span>
+                <div class="segmented-row">
+                    <button type="button" class="seg-btn selected" data-col-opt="1" onclick="setColumns('1')">1열 시원하게</button>
+                    <button type="button" class="seg-btn" data-col-opt="2" onclick="setColumns('2')">2열 모아보기</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">3. 배경 색상 테마</span>
+                <div class="segmented-row">
+                    <button type="button" class="seg-btn selected" data-theme-opt="dark" onclick="setTheme('dark')">🌙 어두운 배경</button>
+                    <button type="button" class="seg-btn" data-theme-opt="light" onclick="setTheme('light')">☀️ 밝은 배경</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">4. 링크 관리 및 화면 초기화</span>
+                <button type="button" class="full-action-btn gold-outline" onclick="toggleEditFromSheet()">
+                    ✏️ 링크 추가 / 삭제 편집모드 켜기
+                </button>
+                <button type="button" class="full-action-btn" onclick="forceCleanReload()">
+                    🔄 캐시 비우고 최신화면 강제 갱신
+                </button>
+            </div>
         </div>
     </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec";
         const VALID_CATEGORIES = new Set(["top", "partner", "design", "frequent"]);
-        let links = [];
-        let currentFilter = 'all';
-        let deferredPrompt = null;
+        const CHOSUNG_LIST = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+        const canNativeShare = typeof navigator.share === "function";
 
-        // PWA 서비스워커 등록 및 즉각적인 캐시 갱신 (Force Update)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=20261121_v99').then(reg => {
+        let links = [];
+        let currentFilter = "all";
+        let deferredPrompt = null;
+        let isForcedLandscape = false;
+        let toastTimer = null;
+
+        /* =========================================================
+           1. 개인화 설정 복원 및 저장 (글씨크기 / 1·2열 / 테마)
+           ========================================================= */
+        function loadPreferences() {
+            const savedFs = localStorage.getItem("joonoo_fs") || "large";
+            const savedCols = localStorage.getItem("joonoo_cols") || "1";
+            const savedTheme = localStorage.getItem("joonoo_theme") || "dark";
+            applyFontSize(savedFs);
+            applyColumns(savedCols);
+            applyTheme(savedTheme);
+        }
+
+        function applyFontSize(size) {
+            const valid = ["normal", "large", "xlarge"].includes(size) ? size : "large";
+            document.documentElement.setAttribute("data-fontsize", valid);
+            document.querySelectorAll("[data-fs-opt]").forEach(btn => {
+                btn.classList.toggle("selected", btn.getAttribute("data-fs-opt") === valid);
+            });
+        }
+
+        function setFontSize(size) {
+            triggerHaptic(15);
+            localStorage.setItem("joonoo_fs", size);
+            applyFontSize(size);
+            showToast(size === "xlarge" ? "🔍 특대 글씨로 변경되었습니다" : size === "large" ? "👍 크게(기본) 글씨로 변경되었습니다" : "보통 글씨로 변경되었습니다");
+        }
+
+        function applyColumns(cols) {
+            const valid = cols === "2" ? "2" : "1";
+            document.documentElement.setAttribute("data-cols", valid);
+            document.querySelectorAll("[data-col-opt]").forEach(btn => {
+                btn.classList.toggle("selected", btn.getAttribute("data-col-opt") === valid);
+            });
+        }
+
+        function setColumns(cols) {
+            triggerHaptic(15);
+            localStorage.setItem("joonoo_cols", cols);
+            applyColumns(cols);
+            showToast(cols === "2" ? "📱 2열 모아보기로 전환되었습니다" : "📱 1열 시원하게 보기로 전환되었습니다");
+        }
+
+        function applyTheme(theme) {
+            const isLight = theme === "light";
+            if (isLight) {
+                document.body.setAttribute("data-theme", "light");
+            } else {
+                document.body.removeAttribute("data-theme");
+            }
+            document.querySelectorAll("[data-theme-opt]").forEach(btn => {
+                btn.classList.toggle("selected", btn.getAttribute("data-theme-opt") === (isLight ? "light" : "dark"));
+            });
+        }
+
+        function setTheme(theme) {
+            triggerHaptic(15);
+            localStorage.setItem("joonoo_theme", theme);
+            applyTheme(theme);
+        }
+
+        /* =========================================================
+           2. 유튜브식 강제 가로/세로 전환 (세로 잠금 상태 돌파 지원)
+           ========================================================= */
+        async function toggleLandscape() {
+            triggerHaptic(20);
+            const btn = document.getElementById("btnRotate");
+
+            if (!isForcedLandscape) {
+                try {
+                    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+                        await document.documentElement.requestFullscreen();
+                    }
+                    if (screen.orientation && screen.orientation.lock) {
+                        await screen.orientation.lock("landscape");
+                    } else {
+                        throw new Error("LOCK_UNSUPPORTED");
+                    }
+                    isForcedLandscape = true;
+                    btn.textContent = "🔄 세로";
+                    btn.classList.add("active-mode");
+                    showToast("📱 가로 화면으로 전환되었습니다");
+                } catch (_) {
+                    // iOS 사파리 등 물리 회전 API 미지원 브라우저 폴백: 다단 와이드 모드 전환 + 안내
+                    isForcedLandscape = true;
+                    document.body.classList.add("wide-grid-mode");
+                    btn.textContent = "🔄 세로";
+                    btn.classList.add("active-mode");
+                    showToast("상단바 '자동 회전'을 켜고 폰을 돌리시면 전체 가로화면이 됩니다");
+                }
+            } else {
+                try {
+                    if (screen.orientation && screen.orientation.unlock) {
+                        screen.orientation.unlock();
+                    }
+                    if (document.fullscreenElement && document.exitFullscreen) {
+                        await document.exitFullscreen();
+                    }
+                } catch (_) {}
+                isForcedLandscape = false;
+                document.body.classList.remove("wide-grid-mode");
+                btn.textContent = "🔄 가로";
+                btn.classList.remove("active-mode");
+                showToast("📱 세로 화면으로 복귀했습니다");
+            }
+        }
+
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement && isForcedLandscape && !document.body.classList.contains("wide-grid-mode")) {
+                isForcedLandscape = false;
+                const btn = document.getElementById("btnRotate");
+                btn.textContent = "🔄 가로";
+                btn.classList.remove("active-mode");
+            }
+        });
+
+        /* =========================================================
+           3. 한글 초성 검색 엔진 (예: 'ㄱㄱ' -> '고객검색')
+           ========================================================= */
+        function extractChosung(str) {
+            let result = "";
+            for (let i = 0; i < str.length; i++) {
+                const code = str.charCodeAt(i) - 0xAC00;
+                if (code >= 0 && code < 11172) {
+                    result += CHOSUNG_LIST[Math.floor(code / 588)];
+                } else {
+                    result += str[i];
+                }
+            }
+            return result;
+        }
+
+        function matchesQuery(nameStr, urlStr, query) {
+            if (!query) return true;
+            const lowerName = nameStr.toLowerCase().replace(/\s+/g, "");
+            const lowerQuery = query.toLowerCase().replace(/\s+/g, "");
+            if (lowerName.includes(lowerQuery) || urlStr.toLowerCase().includes(lowerQuery)) {
+                return true;
+            }
+            const nameChosung = extractChosung(lowerName);
+            return nameChosung.includes(lowerQuery);
+        }
+
+        /* =========================================================
+           4. PWA 서비스워커 & 완전 캐시 초기화
+           ========================================================= */
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./sw.js?v=1000").then(reg => {
                     reg.update();
                 }).catch(() => {});
             });
         }
 
-        // 브라우저 캐시 강제 무력화 갱신 함수
-        function forceCleanReload() {
-            if ('caches' in window) {
-                caches.keys().then(names => {
-                    names.forEach(name => caches.delete(name));
-                });
-            }
-            localStorage.removeItem("joonoo_links_cache");
-            window.location.reload(true);
+        async function forceCleanReload() {
+            triggerHaptic(30);
+            showToast("🔄 캐시를 초기화하고 최신 화면을 불러옵니다...");
+            try {
+                if ("serviceWorker" in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(regs.map(r => r.unregister()));
+                }
+                if ("caches" in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(k => caches.delete(k)));
+                }
+                localStorage.removeItem("joonoo_links_cache");
+            } catch (_) {}
+            window.location.replace(window.location.pathname + "?t=" + Date.now());
         }
 
-        // PWA 설치 감지
-        window.addEventListener('beforeinstallprompt', (e) => {
+        window.addEventListener("beforeinstallprompt", (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            const btn = document.getElementById('btnInstall');
-            if (btn) btn.style.display = 'inline-flex';
+            const btn = document.getElementById("btnInstall");
+            if (btn) btn.style.display = "flex";
         });
 
         async function installApp() {
             if (!deferredPrompt) return;
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                document.getElementById('btnInstall').style.display = 'none';
+            if (outcome === "accepted") {
+                document.getElementById("btnInstall").style.display = "none";
             }
             deferredPrompt = null;
         }
 
-        // 갤럭시 햅틱 진동 피드백
-        function triggerHaptic(duration = 20) {
+        /* =========================================================
+           5. 유틸리티 (햅틱, 토스트, 설정 모달, 도메인 자동완성)
+           ========================================================= */
+        function triggerHaptic(ms = 18) {
             if (navigator.vibrate) {
-                try { navigator.vibrate(duration); } catch (_) {}
+                try { navigator.vibrate(ms); } catch (_) {}
             }
+        }
+
+        function showToast(msg) {
+            const el = document.getElementById("toast");
+            el.textContent = msg;
+            el.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                el.classList.remove("show");
+            }, 1800);
+        }
+
+        function openSettings() {
+            triggerHaptic(15);
+            document.getElementById("settingsModal").classList.add("open");
+        }
+
+        function closeSettings() {
+            document.getElementById("settingsModal").classList.remove("open");
+        }
+
+        function handleBackdropClick(e) {
+            if (e.target.id === "settingsModal") closeSettings();
+        }
+
+        function toggleEditFromSheet() {
+            closeSettings();
+            toggleEditMode(true);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function toggleEditMode(forceState) {
+            triggerHaptic(20);
+            const next = typeof forceState === "boolean"
+                ? forceState
+                : !document.body.classList.contains("edit-mode");
+            document.body.classList.toggle("edit-mode", next);
+            showToast(next ? "🔓 편집 모드가 켜졌습니다" : "🔒 편집 모드가 종료되었습니다");
         }
 
         function sanitizeUrl(raw) {
@@ -635,22 +1215,20 @@
             return null;
         }
 
-        // 스마트 도메인 분석 자동완성
         function smartSuggestName(urlStr) {
             if (!urlStr) return;
             const safe = sanitizeUrl(urlStr);
             if (!safe) return;
             const nameInput = document.getElementById("inputName");
             const catSelect = document.getElementById("inputCategory");
-            
             try {
                 const host = new URL(safe).hostname.toLowerCase();
                 if (host.includes("swadpia")) { nameInput.value = "성원애드피아"; catSelect.value = "partner"; }
                 else if (host.includes("eprint")) { nameInput.value = "이프린트"; catSelect.value = "partner"; }
                 else if (host.includes("cafe24")) { nameInput.value = "카페24 관리자"; catSelect.value = "frequent"; }
-                else if (host.includes("smartstore")) { nameInput.value = "스마트스토어"; catSelect.value = "frequent"; }
+                else if (host.includes("smartstore")) { nameInput.value = "네이버스마트스토어"; catSelect.value = "frequent"; }
                 else if (host.includes("coupang")) { nameInput.value = "쿠팡 윙"; catSelect.value = "frequent"; }
-                else if (host.includes("esmplus")) { nameInput.value = "ESM Plus"; catSelect.value = "frequent"; }
+                else if (host.includes("esmplus")) { nameInput.value = "ESM(지마켓,옥션)"; catSelect.value = "frequent"; }
                 else if (host.includes("11st")) { nameInput.value = "11번가 셀러오피스"; catSelect.value = "frequent"; }
                 else if (host.includes("freepik")) { nameInput.value = "프리픽"; catSelect.value = "design"; }
                 else if (host.includes("flaticon")) { nameInput.value = "플랫아이콘"; catSelect.value = "design"; }
@@ -661,6 +1239,9 @@
             } catch (_) {}
         }
 
+        /* =========================================================
+           6. 데이터 조회 / 렌더링 / 하이브리드 추가·삭제
+           ========================================================= */
         async function fetchLinks() {
             const cached = localStorage.getItem("joonoo_links_cache");
             if (cached) {
@@ -679,15 +1260,15 @@
                     localStorage.setItem("joonoo_links_cache", JSON.stringify(data));
                     renderLinks();
                 }
-            } catch (error) {
+            } catch (_) {
                 if (!links.length) {
-                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결에 실패했습니다. 화면을 당겨 새로고침해 주세요.</div>";
+                    document.getElementById("grid-top").innerHTML = "<div class='loading-spinner'>연결 실패 — 설정에서 '최신화면 강제 갱신'을 눌러주세요.</div>";
                 }
             }
         }
 
         function renderLinks() {
-            const query = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+            const query = (document.getElementById("searchInput").value || "").trim();
             VALID_CATEGORIES.forEach(cat => {
                 const el = document.getElementById(`grid-${cat}`);
                 if (el) el.textContent = "";
@@ -699,15 +1280,11 @@
                 const safeUrl = sanitizeUrl(String(link.url || ""));
                 if (!safeUrl) return;
                 const nameStr = String(link.name || safeUrl);
-                
-                if (query && !nameStr.toLowerCase().includes(query) && !safeUrl.toLowerCase().includes(query)) {
-                    return;
-                }
+
+                if (!matchesQuery(nameStr, safeUrl, query)) return;
 
                 const cat = VALID_CATEGORIES.has(link.category) ? link.category : "frequent";
-                if (currentFilter !== 'all' && currentFilter !== cat) {
-                    return;
-                }
+                if (currentFilter !== "all" && currentFilter !== cat) return;
 
                 const grid = document.getElementById(`grid-${cat}`);
                 if (!grid) return;
@@ -717,12 +1294,15 @@
                 const wrapper = document.createElement("div");
                 wrapper.className = "link-wrapper";
 
+                const card = document.createElement("div");
+                card.className = `link-card cat-${cat}`;
+
                 const anchor = document.createElement("a");
                 anchor.href = safeUrl;
                 anchor.target = "_blank";
                 anchor.rel = "noopener noreferrer";
-                anchor.className = `link-btn cat-${cat}`;
-                anchor.addEventListener("click", () => triggerHaptic(20));
+                anchor.className = "link-anchor";
+                anchor.addEventListener("click", () => triggerHaptic(18));
 
                 const titleSpan = document.createElement("span");
                 titleSpan.className = "link-title";
@@ -738,27 +1318,45 @@
                 }
                 anchor.appendChild(urlPreview);
 
+                const actions = document.createElement("div");
+                actions.className = "card-actions";
+
+                if (canNativeShare) {
+                    const shareBtn = document.createElement("button");
+                    shareBtn.type = "button";
+                    shareBtn.className = "icon-action-btn share-btn";
+                    shareBtn.title = "카톡/문자 공유";
+                    shareBtn.textContent = "📤";
+                    shareBtn.addEventListener("click", async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        triggerHaptic(22);
+                        try {
+                            await navigator.share({ title: nameStr, text: nameStr, url: safeUrl });
+                        } catch (_) {}
+                    });
+                    actions.appendChild(shareBtn);
+                }
+
                 const copyBtn = document.createElement("button");
                 copyBtn.type = "button";
-                copyBtn.className = "copy-btn";
+                copyBtn.className = "icon-action-btn";
                 copyBtn.title = "링크 복사";
                 copyBtn.textContent = "📋";
                 copyBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    triggerHaptic(30);
+                    triggerHaptic(28);
                     try {
                         await navigator.clipboard.writeText(safeUrl);
                         copyBtn.textContent = "✓";
-                        copyBtn.style.color = "#FFD700";
-                        setTimeout(() => {
-                            copyBtn.textContent = "📋";
-                            copyBtn.style.color = "";
-                        }, 1200);
+                        showToast(`📋 [${nameStr}] 주소가 복사되었습니다!`);
+                        setTimeout(() => { copyBtn.textContent = "📋"; }, 1200);
                     } catch (_) {
                         prompt("아래 주소를 복사하세요:", safeUrl);
                     }
                 });
+                actions.appendChild(copyBtn);
 
                 const delBtn = document.createElement("button");
                 delBtn.type = "button";
@@ -768,11 +1366,12 @@
                 delBtn.addEventListener("click", (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    deleteLink(link.id);
+                    deleteLink(link.id, nameStr);
                 });
 
-                wrapper.appendChild(anchor);
-                wrapper.appendChild(copyBtn);
+                card.appendChild(anchor);
+                card.appendChild(actions);
+                wrapper.appendChild(card);
                 wrapper.appendChild(delBtn);
                 grid.appendChild(wrapper);
             });
@@ -781,17 +1380,17 @@
                 const sec = document.getElementById(`section-${cat}`);
                 const grid = document.getElementById(`grid-${cat}`);
                 if (sec && grid) {
-                    if (currentFilter !== 'all' && currentFilter !== cat) {
-                        sec.style.display = 'none';
+                    if (currentFilter !== "all" && currentFilter !== cat) {
+                        sec.style.display = "none";
                     } else if (grid.children.length === 0 && query) {
-                        sec.style.display = 'none';
+                        sec.style.display = "none";
                     } else {
-                        sec.style.display = 'block';
+                        sec.style.display = "block";
                     }
                 }
             });
 
-            document.getElementById("linkCount").textContent = `${visibleCount}개 연결됨`;
+            document.getElementById("linkCount").textContent = `총 ${visibleCount}개 연결됨`;
         }
 
         function handleSearch(val) {
@@ -814,15 +1413,32 @@
             renderLinks();
         }
 
+        // 구버전(텍스트 응답) 및 신버전(JSON 응답) 모두 호환되는 안전 검증기
+        async function verifyWriteResponse(res) {
+            if (!res.ok) throw new Error(`HTTP_${res.status}`);
+            const text = await res.text();
+            if (!text) return;
+            try {
+                const json = JSON.parse(text);
+                if (json && typeof json === "object" && json.ok === false) {
+                    throw new Error(json.message || json.error || "SERVER_REJECTED");
+                }
+            } catch (err) {
+                if (err && err.message && !err.message.includes("JSON")) {
+                    throw err;
+                }
+            }
+        }
+
         async function addLink() {
             const category = document.getElementById("inputCategory").value;
             const name = document.getElementById("inputName").value.trim();
             const rawUrl = document.getElementById("inputUrl").value.trim();
             const btnAdd = document.getElementById("btnAdd");
 
-            if (!name || !rawUrl) return alert("이름과 링크 주소를 모두 입력해주세요!");
+            if (!name || !rawUrl) return showToast("⚠️ 버튼 이름과 주소를 모두 입력해주세요");
             const safeUrl = sanitizeUrl(rawUrl);
-            if (!safeUrl) return alert("올바른 http:// 또는 https:// 주소를 입력해주세요!");
+            if (!safeUrl) return showToast("⚠️ 올바른 https:// 주소를 입력해주세요");
 
             triggerHaptic(25);
             btnAdd.textContent = "저장 중...";
@@ -842,78 +1458,44 @@
                     body: JSON.stringify(newLink),
                     headers: { "Content-Type": "text/plain;charset=utf-8" }
                 });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                await verifyWriteResponse(res);
 
                 links.push(newLink);
                 localStorage.setItem("joonoo_links_cache", JSON.stringify(links));
                 renderLinks();
                 document.getElementById("inputName").value = "";
                 document.getElementById("inputUrl").value = "";
-            } catch (error) {
-                alert("추가 중 오류가 발생했습니다.");
+                showToast(`✅ [${name}] 링크가 등록되었습니다!`);
+            } catch (err) {
+                alert("추가 중 오류가 발생했습니다: " + (err.message || "연결 확인"));
             } finally {
-                btnAdd.textContent = "새 링크 등록 ➕";
+                btnAdd.textContent = "새 링크 등록하기 ➕";
                 btnAdd.disabled = false;
             }
         }
 
-        async function deleteLink(id) {
-            if (!confirm("이 링크를 삭제하시겠습니까?")) return;
-            triggerHaptic(40);
+        async function deleteLink(id, nameStr) {
+            if (!confirm(`[${nameStr}] 링크를 삭제하시겠습니까?`)) return;
+            triggerHaptic(35);
             try {
                 const res = await fetch(SCRIPT_URL, {
                     method: "POST",
                     body: JSON.stringify({ action: "delete", id: String(id) }),
                     headers: { "Content-Type": "text/plain;charset=utf-8" }
                 });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                await verifyWriteResponse(res);
 
                 links = links.filter(link => String(link.id) !== String(id));
                 localStorage.setItem("joonoo_links_cache", JSON.stringify(links));
                 renderLinks();
-            } catch (error) {
-                alert("삭제 중 오류가 발생했습니다.");
+                showToast(`🗑️ [${nameStr}] 삭제되었습니다`);
+            } catch (err) {
+                alert("삭제 중 오류가 발생했습니다: " + (err.message || "연결 확인"));
             }
         }
 
-        function toggleEditMode() {
-            triggerHaptic(20);
-            const isEdit = document.body.classList.toggle("edit-mode");
-            const btn = document.getElementById("btnEditMode");
-            btn.textContent = isEdit ? "완료 🔓" : "편집 🔒";
-            btn.style.color = isEdit ? "#FFD700" : "";
-        }
-
-        function toggleTheme() {
-            triggerHaptic(15);
-            const body = document.body;
-            const btn = document.getElementById("btnTheme");
-            if (body.getAttribute("data-theme") === "light") {
-                body.removeAttribute("data-theme");
-                btn.textContent = "☀️";
-                localStorage.setItem("junu_vip_theme", "dark");
-            } else {
-                body.setAttribute("data-theme", "light");
-                btn.textContent = "🌙";
-                localStorage.setItem("junu_vip_theme", "light");
-            }
-        }
-
-        // 화면 회전 감지 시 즉시 레이아웃 재계산
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => { renderLinks(); }, 150);
-        });
-        window.addEventListener('resize', () => {
-            renderLinks();
-        });
-
-        window.onload = () => {
-            if (localStorage.getItem("junu_vip_theme") === "light") {
-                document.body.setAttribute("data-theme", "light");
-                document.getElementById("btnTheme").textContent = "🌙";
-            }
-            fetchLinks();
-        };
+        loadPreferences();
+        window.addEventListener("DOMContentLoaded", fetchLinks);
     </script>
 </body>
 </html>

@@ -1,18 +1,17 @@
-// 주누링크 VIP 서비스워커 v999 (캐시 강제 파기 및 대형 폰트 업데이트)
-const CACHE_NAME = 'joonoo-link-vip-v999';
-const ASSETS_TO_CACHE = [
+// 주누링크 서비스워커 (Carbon High v1000 - Stale-While-Revalidate 0.01초 구동)
+const CACHE_NAME = 'joonoo-link-carbon-v1000';
+const STATIC_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png',
-  'https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'
+  './icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
   );
 });
 
@@ -24,25 +23,43 @@ self.addEventListener('activate', (e) => {
           if (key !== CACHE_NAME) return caches.delete(key);
         })
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', (e) => {
-  if (e.request.url.includes('script.google.com')) {
-    e.respondWith(fetch(e.request));
+  if (e.request.method !== 'GET') return;
+  if (e.request.url.includes('script.google.com')) return;
+
+  // 강제 캐시 우회 파라미터(?t=...)가 붙은 경우 네트워크 우선으로 캐시 갱신
+  if (e.request.url.includes('?t=')) {
+    e.respondWith(
+      fetch(e.request, { cache: 'no-store' })
+        .then((res) => {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', clone));
+          return res;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
     return;
   }
 
-  // 네트워크 우선, 실패 시 캐시
+  // Stale-While-Revalidate: 저장된 화면을 0.01초 만에 띄우고 백그라운드 최신화
   e.respondWith(
-    fetch(e.request)
-      .then((res) => {
-        const resClone = res.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
-        return res;
+    caches.open(CACHE_NAME).then((cache) =>
+      cache.match(e.request, { ignoreSearch: true }).then((cached) => {
+        const networkFetch = fetch(e.request)
+          .then((res) => {
+            if (res && res.status === 200) {
+              cache.put(e.request, res.clone());
+            }
+            return res;
+          })
+          .catch(() => cached);
+
+        return cached || networkFetch;
       })
-      .catch(() => caches.match(e.request))
+    )
   );
 });
