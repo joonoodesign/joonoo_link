@@ -962,7 +962,8 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkU-D5m1R_JIypP3D6S0OqxOo1ICn3wXkE4b0VAoqIT-Yx2EA_Uru3F4blDlIBVnSd/exec";
         const VALID_CATEGORIES = new Set(["top", "partner", "design", "frequent"]);
         const CHOSUNG_LIST = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
-        const canNativeShare = typeof navigator.share === "function";
+        const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const canMobileShare = typeof navigator.share === "function" && isMobileDevice;
 
         let links = [];
         let currentFilter = "all";
@@ -1321,23 +1322,33 @@
                 const actions = document.createElement("div");
                 actions.className = "card-actions";
 
-                if (canNativeShare) {
-                    const shareBtn = document.createElement("button");
-                    shareBtn.type = "button";
-                    shareBtn.className = "icon-action-btn share-btn";
-                    shareBtn.title = "카톡 / 문자 공유";
-                    shareBtn.textContent = "📤";
-                    shareBtn.addEventListener("click", async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        triggerHaptic(22);
+                const shareBtn = document.createElement("button");
+                shareBtn.type = "button";
+                shareBtn.className = "icon-action-btn share-btn";
+                shareBtn.title = isMobileDevice ? "카톡 / 문자 공유" : "카톡 붙여넣기용 복사";
+                shareBtn.textContent = "📤";
+                shareBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    triggerHaptic(22);
+                    const fullMsg = `[${nameStr}]\n${safeUrl}`;
+                    if (canMobileShare) {
                         try {
-                            const fullMsg = `[${nameStr}]\n${safeUrl}`;
                             await navigator.share({ title: nameStr, text: fullMsg, url: safeUrl });
+                            return;
                         } catch (_) {}
-                    });
-                    actions.appendChild(shareBtn);
-                }
+                    }
+                    // PC(윈도우/맥): 윈도우 기본 공유창 대신 카카오톡 PC버전 붙여넣기용 클립보드 원터치 복사
+                    try {
+                        await navigator.clipboard.writeText(fullMsg);
+                        shareBtn.textContent = "✓";
+                        showToast(`💬 [${nameStr}] 카톡 붙여넣기(Ctrl+V)용 복사 완료!`);
+                        setTimeout(() => { shareBtn.textContent = "📤"; }, 1400);
+                    } catch (_) {
+                        prompt("아래 내용을 복사해 카카오톡에 붙여넣으세요:", fullMsg);
+                    }
+                });
+                actions.appendChild(shareBtn);
 
                 const copyBtn = document.createElement("button");
                 copyBtn.type = "button";
