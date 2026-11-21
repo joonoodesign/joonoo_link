@@ -1,5 +1,5 @@
-// 주누링크 VIP 서비스워커 (v2 대형 활자 & 자유 회전 업데이트)
-const CACHE_NAME = 'joonoo-link-vip-v2';
+// 주누링크 VIP 서비스워커 v999 (캐시 강제 파기 및 대형 폰트 업데이트)
+const CACHE_NAME = 'joonoo-link-vip-v999';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -35,6 +35,7 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
+  // 네트워크 우선, 실패 시 캐시
   e.respondWith(
     fetch(e.request)
       .then((res) => {
